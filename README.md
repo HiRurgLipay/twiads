@@ -1,3 +1,3 @@
 # twiads
-Social media like Twitter and Threads
-Diploma project
+Social media like Twitter and Threads.
+Diploma project.
