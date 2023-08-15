@@ -1,15 +1,23 @@
-from .confirmation_code import Confirmation_code
+from .confirmation_code import ConfirmationCode
 from .country import Country
 from .gender import Gender
 from .like import Like
-from .notification_type import Notification_type
 from .notification import Notification
+from .notification_type import NotificationType
 from .retweet import Retweet
 from .tag import Tag
 from .tweet import Tweet
 from .user import User
 
-__all__ = ['Confirmation_code', 'Country', 'Gender', 'Like', 
-           'Notification_type', 'Notification', 'Retweet', 
-           'Tag', 'Tweet', 'User'
+__all__ = [
+    "ConfirmationCode",
+    "Country",
+    "Gender",
+    "Like",
+    "NotificationType",
+    "Notification",
+    "Retweet",
+    "Tag",
+    "Tweet",
+    "User",
 ]
