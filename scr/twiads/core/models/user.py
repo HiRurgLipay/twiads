@@ -19,7 +19,6 @@ class User(BaseModel, AbstractUser):
         related_name="subscriptions",  # name to feedback
         db_table="subscriber_user",
     )
-    gender = models.ForeignKey(to="Gender", on_delete=models.CASCADE, related_name="users")
     country = models.ForeignKey(to="Country", on_delete=models.CASCADE, related_name="users")
 
     class Meta:

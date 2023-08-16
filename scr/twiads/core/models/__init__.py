@@ -1,6 +1,5 @@
 from .confirmation_code import ConfirmationCode
 from .country import Country
-from .gender import Gender
 from .like import Like
 from .notification import Notification
 from .notification_type import NotificationType
