@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Your Tweet</h1>
+<p>{{ tweet.content }}</p>
+<p>Author: {{ tweet.author }}</p>
+<p>Date: {{ tweet.created_at }}</p>
+<p>Likes: {{ tweet.likes_count}}</p>
+<p>Comments: {{ tweet.comments_count }}</p>
+<p>Reetweets: {{ tweet.reetweets_count }}</p>
+<p>tags: {{ tweet.tag }}</p>
+{% endblock %}
