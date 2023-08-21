@@ -15,6 +15,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+from twiads.logger_formatter import ContextFormatter
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -135,3 +137,40 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "core.User"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "console_formatter": {
+            "()": ContextFormatter,
+            "format": "{asctime} - {levelname} - {name} - {module}:{funcName}:{lineno} - {message}",
+            "style": "{",
+        }
+    },
+    "handlers": {
+        "console_handler": {
+            "class": "logging.StreamHandler",
+            "level": os.environ["LOG_LEVEL"],
+            "formatter": "console_formatter",
+        }
+    },
+    "loggers": {
+        "root": {"level": os.environ["LOG_LEVEL"], "handlers": ["console_handler"]},
+        "django": {"level": os.environ["LOG_LEVEL"], "handlers": ["console_handler"]},
+        "PIL": {"level": "WARNING", "handlers": ["console_handler"]},
+    },
+}
+
+CONFIRMATION_CODE_LIFETIME = 3600
+
+EMAIL_HOST = os.environ["EMAIL_HOST"]
+EMAIL_PORT = os.environ["EMAIL_PORT"]
+EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
+EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+EMAIL_USE_TLS = os.environ["EMAIL_USE_TLS"]
+EMAIL_BACKEND = os.environ["EMAIL_BACKEND"]
+EMAIL_FROM = os.environ["EMAIL_FROM"]
+
+SERVER_HOST = os.environ["SERVER_HOST"]
+
