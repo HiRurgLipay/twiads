@@ -14,7 +14,7 @@ class Tweet(BaseModel):
     parent_tweet = models.ForeignKey(to="self", on_delete=models.CASCADE, null=True, related_name="comments")
     author = models.ForeignKey(to="User", on_delete=models.CASCADE, related_name="tweets")
 
-    tag = models.ManyToManyField(to="Tag", symmetrical=False, related_name="tweets", db_table="tag_tweets", blank=True)
+    tags = models.ManyToManyField(to="Tag", symmetrical=False, related_name="tweets", db_table="tag_tweets", blank=True)
 
     class Meta:
         db_table = "tweets"

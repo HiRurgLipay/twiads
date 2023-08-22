@@ -9,7 +9,11 @@
             <p>Likes: {{ tweet.likes_count}}</p>
             <p>Reetweets: {{ tweet.reetweets_count }}</p>
             <p>Comments: {{ tweet.comments_count }}</p>
-            <p>tags: {{ tweet.tag }}</p>
+            <p>Tags:
+                {% for tag in tweet.tags.all %}
+                  {{ tag.name }}
+                {% endfor %}
+            </p> 
         </div>
     {% endfor %}
 {% endblock %}

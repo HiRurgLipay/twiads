@@ -1,10 +1,15 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
-from core.models import Tag, User 
+from core.models import Tag, User, Tweet 
 from typing import Optional
+
+
 
 @dataclass
 class AddTweetDTO:
-    content = str
-    tag = Optional['Tag'] | None
-    author = Optional['User']
+    content : str
+    tags : str
+    author : Optional['User'] 
+    parent_tweet : Tweet | None
     
