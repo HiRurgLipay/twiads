@@ -33,5 +33,3 @@ def create_tweet(data: AddTweetDTO) -> None:
             replied_tweet.reply_counter = replies_counter
             replied_tweet.save()
         logger.info("Successfully created tweet", extra={"author":data.author, 'content':data.content, 'parent_tweet':data.parent_tweet})
-            
-
