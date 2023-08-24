@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Profile</h1>
+<p>{{ user.username }}</p>
+<p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+<p>Email: {{ user.email }}</p>
+{% comment %} <img src="{{ user.avatar.url }}" alt="Avatar"> {% endcomment %}
+<p>Registration Date: {{ user.created_at }}</p>
+<p>Following: {{ user.subscriptions_count }}</p>
+<p>Followers: {{ user.subscribers_count }}</p>
+<p>Country: {{ user.country.name }}</p>
+
+<h2>Tweets</h2>
+<ul>
+  {% for tweet in tweets %}
+    <li>{{ retweet.user.first_name }} {{ retweet.user.last_name }}<br><a href="{% url 'profile' retweet.user.username %}"></li>
+    <li>{{ tweet.content }}<br>Likes: {{ tweet.likes_count }} | Retweets: {{ tweet.retweets_count }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Retweets</h2>
+<ul>
+  {% for retweet in retweets %}
+    <li>{{ retweet.user.first_name }} {{ retweet.user.last_name }}<br><a href="{% url 'profile' retweet.user.username %}"></li>
+    <li>{{ tweet.content }}<br>Likes: {{ tweet.likes_count }} | Retweets: {{ tweet.retweets_count }}</li>
+  {% endfor %}
+</ul>
+
+{% comment %} <a href="{% url 'edit_profile' %}">Edit Profile</a>
+<a href="{% url 'create_tweet' %}">Create Tweet</a>
+<a href="{% url 'followers' %}">Followers</a> {% endcomment %}
+{% endblock %}
+
+
+

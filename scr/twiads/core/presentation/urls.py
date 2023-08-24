@@ -8,12 +8,14 @@ from core.presentation.views import (
     registration_confirmation_controller,
     registration_controller,
     confirm_email_stub_controller,
+    profile_controller
 )
 
 
 urlpatterns = [
     path("", lambda request: redirect('login')),
     path("home/", home_controller, name="home"),
+    path("profile/", profile_controller, name="profile"),
     path("tweet/add/", add_tweet_controller, name="add-tweet"),
     path("tweet//<int:tweet_id>/", get_tweet_controller, name="get-tweet"),
     path("signup/", registration_controller, name="registration"),
