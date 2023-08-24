@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any
 from django.db import transaction
 from core.business_logic.dto import AddTweetDTO
 import logging
+import re
 
 from core.models import Tweet, Tag
 
@@ -11,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 def create_tweet(data: AddTweetDTO) -> None:
     with transaction.atomic():
-        tags: list[str] = data.tags.split('\r\n')
+        tags: list[str] = data.tags.split("\r\n")
         tags_list: list[Tag] = []
         for tag in tags:
             try:

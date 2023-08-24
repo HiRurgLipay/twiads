@@ -1,13 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>Tweets Feed</h1>
+    
+    <form method="GET" action="{% url 'home' %}">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Sort</button>
+    </form>
+    
     {% for tweet in tweets %}
         <div class="tweet">
             <p>Author: {{ tweet.author }}</p>
             <p>Date: {{ tweet.created_at }}</p>
             <a href="{% url 'get-tweet' tweet.id %}">{{tweet.content}}</a>
             <p>Likes: {{ tweet.likes_count}}</p>
-            <p>Reetweets: {{ tweet.reetweets_count }}</p>
+            <p>Retweets: {{ tweet.retweets_count }}</p>
             <p>Comments: {{ tweet.comments_count }}</p>
             <p>Tags:
                 {% for tag in tweet.tags.all %}
@@ -17,3 +24,4 @@
         </div>
     {% endfor %}
 {% endblock %}
+
