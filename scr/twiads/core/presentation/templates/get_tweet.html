@@ -2,7 +2,7 @@
 
 {% block content %}
   <h1>Your Tweet</h1>
-  <p>{{ tweet.content }}</p>
+  <p>{{ tweet.content|urlize|safe }}</p>
   <p>Author: {{ tweet.author }}</p>
   <p>Date: {{ tweet.created_at }}</p>
   <p>Likes: {{ tweet.likes_count }}</p>
@@ -12,5 +12,6 @@
     {% for tag in tweet.tags.all %}
       {{ tag.name }}
     {% endfor %}
-  </p>  
+  </p>
 {% endblock %}
+  
