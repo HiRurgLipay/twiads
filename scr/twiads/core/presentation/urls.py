@@ -8,7 +8,8 @@ from core.presentation.views import (
     registration_confirmation_controller,
     registration_controller,
     confirm_email_stub_controller,
-    profile_controller
+    profile_controller,
+    tags_views_controller
 )
 
 
@@ -23,4 +24,5 @@ urlpatterns = [
     path("confirm/note/", confirm_email_stub_controller, name="confirm-stub"),
     path("singnin/", login_controller, name="login"),
     path("logout/", logout_controller, name="logout"),
+    path("tags/", tags_views_controller, name="tags"),
 ]

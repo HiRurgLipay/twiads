@@ -4,7 +4,8 @@ from .registration import confirm_email_stub_controller, registration_confirmati
 from .login import login_controller
 from .logout import logout_controller
 from .profile import profile_controller
+from .tags import tags_views_controller
 
 __all__ = ["home_controller", "get_tweet_controller", "add_tweet_controller", "convert_data_from_form_to_dto", 
            "registration_controller",  "registration_confirmation_controller", "confirm_email_stub_controller", 
-           "login_controller", "logout_controller", "profile_controller"]
+           "login_controller", "logout_controller", "profile_controller", "tags_view_controller"]
