@@ -174,3 +174,5 @@ EMAIL_FROM = os.environ["EMAIL_FROM"]
 
 SERVER_HOST = os.environ["SERVER_HOST"]
 
+STATIC_URL = 'core/presentation/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "core/presentation/static/")]

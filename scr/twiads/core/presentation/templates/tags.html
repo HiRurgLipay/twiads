@@ -19,22 +19,22 @@
         </form>
 
         <ul>
-            {% for tweet in tweets %}
-                <div class="tweet">
-                    <li><p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ tweet.author.username }}</a></p></li>
-                    <li><p>Date: {{ tweet.created_at }}</p></li>
-                    <li><a href="{% url 'get-tweet' tweet.id %}">{{ tweet.content }}</a></li>
-                    <li><p>Likes: {{ tweet.likes_count }}</p></li>
-                    <li><p>Retweets: {{ tweet.retweets_count }}</p></li>
-                    <li><p>Comments: {{ tweet.comments_count }}</p></li>
-                    <li><p>Tags:
-                        {% for tag in tweet.tags.all %}
-                            {{ tag.name }}
-                        {% endfor %}
-                        <br></br>
-                    </p></li> 
-                </div>
-            {% endfor %}
+        {% for tweet in tweets %}
+            <div class="tweet">
+                <li><p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ tweet.author.username }}</a></p></li>
+                <li><p>Date: {{ tweet.created_at }}</p></li>
+                <li><a href="{% url 'get-tweet' tweet.id %}">{{ tweet.content }}</a></li>
+                <li><p>Likes: {{ tweet.likes_count }}</p></li>
+                <li><p>Retweets: {{ tweet.retweets_count }}</p></li>
+                <li><p>Comments: {{ tweet.comments_count }}</p></li>
+                <li><p>Tags:
+                    {% for tag in tweet.tags.all %}
+                        {{ tag.name }}
+                    {% endfor %}
+                    <br></br>
+                </p></li> 
+            </div>
+        {% endfor %}
         </ul>
 
         {% if tweets.has_previous or tweets.has_next %}
