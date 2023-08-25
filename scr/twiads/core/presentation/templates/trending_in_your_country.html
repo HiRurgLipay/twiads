@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Trending in {{ user_country }}</h1>
+  <ul>
+    {% for tag in popular_tags %}
+      <li>{{ tag }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
