@@ -9,7 +9,8 @@ from core.presentation.views import (
     registration_controller,
     confirm_email_stub_controller,
     profile_controller,
-    tags_views_controller
+    tags_views_controller,
+    top_tags_controller,
 )
 
 
@@ -25,4 +26,5 @@ urlpatterns = [
     path("singnin/", login_controller, name="login"),
     path("logout/", logout_controller, name="logout"),
     path("tags/", tags_views_controller, name="tags"),
+    path("populated/tags/", top_tags_controller, name="top_tags"),
 ]

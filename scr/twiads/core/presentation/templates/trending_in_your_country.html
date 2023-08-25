@@ -1,10 +1,9 @@
 {% extends "base.html" %}
-
 {% block content %}
-  <h1>Trending in {{ user_country }}</h1>
-  <ul>
-    {% for tag in popular_tags %}
-      <li>{{ tag }}</li>
-    {% endfor %}
-  </ul>
+    <h1>Trending in your country</h1>
+    <ul>
+        {% for tag in trending_tags %}
+            <li><a href="{% url 'tags' %}?tags={{ tag.tags__name }}">{{ tag.tags__name }}</a> ({{ tag.tag_count }} tweets)</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
