@@ -1,7 +1,8 @@
 from django.urls import path
 from django.shortcuts import redirect
 from core.presentation.views import (
-    home_controller, get_tweet_controller, 
+    home_controller, 
+    get_tweet_controller, 
     add_tweet_controller,  
     login_controller,
     logout_controller,

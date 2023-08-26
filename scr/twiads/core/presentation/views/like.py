@@ -5,10 +5,6 @@ from django.contrib.auth.decorators import login_required
 
 from core.models import Tweet, Like
 
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from django.http import HttpRequest
-    
 
 @login_required
 def like_controller(request, tweet_id):
