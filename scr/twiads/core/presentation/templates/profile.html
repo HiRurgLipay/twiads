@@ -2,7 +2,11 @@
 {% block content %}
 <h1>Profile</h1>
 <p>{{ user.username }}</p>
-<p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+<p>{{ user.first_name }} {{ user.last_name }}</p>
+{% if user.bio.Null%}
+{% elif user.bio %}
+    <p>Bio: {{ user.bio }}</p>
+{% endif %}
 <p>Email: {{ user.email }}</p>
 {% comment %} <img src="{{ user.avatar.url }}" alt="Avatar"> {% endcomment %}
 <p>Registration Date: {{ user.created_at }}</p>
@@ -10,10 +14,12 @@
 <p>Followers: {{ user.subscribers_count }}</p>
 <p>Country: {{ user.country.name }}</p>
 
+<a href="{% url 'edit-profile' %}">Edit Profile</a>
+
 <h2>Tweets:</h2>
     {% for tweet in tweets %}
     <div class="tweet">
-        <p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">{{ tweet.author.username }}</a></p>
+        <p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ tweet.author.username }}</a></p>
         <p>Date: {{ tweet.created_at }}</p>
         <a href="{% url 'get-tweet' tweet.id %}">{{ tweet.content }}</a>
         <p>Likes: {{ tweet.likes_count }}</p>

@@ -12,6 +12,7 @@ class User(BaseModel, AbstractUser):
     subscribers_count = models.PositiveIntegerField(default=0)
     subscriptions_count = models.PositiveIntegerField(default=0)
     tweets_count = models.PositiveIntegerField(default=0)
+    bio = models.CharField(max_length=400, null=True)
 
     subscriber = models.ManyToManyField(
         to="self",  # link to self
