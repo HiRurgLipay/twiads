@@ -16,13 +16,28 @@
 
 <a href="{% url 'edit-profile' %}">Edit Profile</a>
 
+
+
 <h2>Tweets:</h2>
+    <form method="GET" action="{% url 'profile' %}">
+        {% csrf_token %}
+        <select name="sort_by">
+            <option value="Newest" {% if request.GET.sort_by == 'Newest' %}selected{% endif %}>Date</option>
+            <option value="Likes" {% if request.GET.sort_by == 'Likes' %}selected{% endif %}>Likes</option>
+        </select>
+        <button type="submit">Sort</button>
+    </form>
     {% for tweet in tweets %}
     <div class="tweet">
         <p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ tweet.author.username }}</a></p>
         <p>Date: {{ tweet.created_at }}</p>
         <a href="{% url 'get-tweet' tweet.id %}">{{ tweet.content }}</a>
-        <p>Likes: {{ tweet.likes_count }}</p>
+        <li>
+            <form action="{% url 'like_tweet' tweet_id=tweet.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="like-button">Like</button> {{ tweet.likes_count }}
+            </form>
+        </li>
         <p>Retweets: {{ tweet.retweets_count }}</p>
         <p>Comments: {{ tweet.comments_count }}</p>
         <p>Tags:
@@ -32,4 +47,23 @@
         </p> 
     </div>
     {% endfor %}
+    {% if tweets.has_previous or tweets.has_next %}
+        <div class="pagination">
+            {% if tweets.has_previous %}
+                <a href="?sort_by={{ request.GET.sort_by }}&page={{ tweets.previous_page_number }}">Previous</a>
+            {% endif %}
+            
+            {% for num in tweets.paginator.page_range %}
+                {% if num == tweets.number %}
+                    <span class="current-page">{{ num }}</span>
+                {% else %}
+                    <a href="?sort_by={{ request.GET.sort_by }}&page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+            
+            {% if tweets.has_next %}
+                <a href="?sort_by={{ request.GET.sort_by }}&page={{ tweets.next_page_number }}">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}

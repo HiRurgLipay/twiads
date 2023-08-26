@@ -1,16 +1,21 @@
 from __future__ import annotations
 
+import logging
+
 from typing import TYPE_CHECKING
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
-from core.presentation.forms import EditProfileForm
-import logging
-from core.models import Tweet
 from django.urls import reverse
+from django.core.paginator import Paginator
+
+
+from core.models import Tweet
 from core.presentation.converters import convert_data_from_form_to_dto
 from core.business_logic.services import edit_profile
 from core.business_logic.dto import EditProfileDto
+from core.presentation.forms import SortForm
+from core.presentation.forms import EditProfileForm
 
 
 if TYPE_CHECKING:
@@ -20,10 +25,28 @@ logger = logging.getLogger(__name__)
 
 
 
-@require_http_methods(request_method_list=["GET", "POST"])
+@require_http_methods(request_method_list=["GET"])
 def profile_controller(request: HttpRequest) -> HttpResponse:
     tweets = Tweet.objects.filter(author=request.user)
-    context = {"tweets": tweets}
+    form = SortForm(request.GET)
+    
+    if form.is_valid():
+        sort_by = form.cleaned_data['sort_by']
+        if sort_by == 'Newest':
+            tweets = tweets.order_by('-created_at')
+        elif sort_by == 'Likes':
+            tweets = tweets.order_by('-likes_count')
+    else:
+        tweets = tweets.order_by('-created_at')
+    
+    paginator = Paginator(tweets, 2)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+    
+    context = {"tweets": tweets,
+               'form': form,
+                'tweets': page,}
+    
     return render(request=request, template_name="profile.html", context=context)   
   
 

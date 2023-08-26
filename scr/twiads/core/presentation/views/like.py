@@ -23,4 +23,5 @@ def like_controller(request, tweet_id):
 
     tweet.save()
 
-    return redirect('home')
+    current_page = request.META.get('HTTP_REFERER')
+    return redirect(current_page)
