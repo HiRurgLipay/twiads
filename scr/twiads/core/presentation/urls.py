@@ -1,7 +1,8 @@
 from django.urls import path
 from django.shortcuts import redirect
 from core.presentation.views import (
-    home_controller, get_tweet_controller, 
+    home_controller, 
+    get_tweet_controller, 
     add_tweet_controller,  
     login_controller,
     logout_controller,
@@ -10,7 +11,9 @@ from core.presentation.views import (
     confirm_email_stub_controller,
     profile_controller,
     edit_profile_controller,
-    tags_views_controller
+    tags_views_controller,
+    top_tags_controller,
+    like_controller,
 )
 
 
@@ -27,4 +30,6 @@ urlpatterns = [
     path("singnin/", login_controller, name="login"),
     path("logout/", logout_controller, name="logout"),
     path("tags/", tags_views_controller, name="tags"),
+    path("populated/tags/", top_tags_controller, name="top_tags"),
+    path('<int:tweet_id>/like', like_controller, name='like_tweet')
 ]
