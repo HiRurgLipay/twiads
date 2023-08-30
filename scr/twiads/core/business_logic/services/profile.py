@@ -5,7 +5,7 @@ from core.models import Country
 from core.models import User
 
 if TYPE_CHECKING:
-    from core.business_logic.dto import EditProfileDto
+    from core.business_logic.dto import EditProfileDto, SubscriberDTO
 
 
 def edit_profile(data: EditProfileDto, user: User) -> None:
@@ -19,4 +19,4 @@ def edit_profile(data: EditProfileDto, user: User) -> None:
         birth_date = data.birth_date,
         country = country
     )
-  
+    return None

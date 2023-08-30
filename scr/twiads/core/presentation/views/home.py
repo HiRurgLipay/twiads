@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
@@ -45,4 +45,4 @@ def home_controller(request: HttpRequest) -> HttpResponse:
         'tweets': page,
         'retweets': retweets,
     }
-    return render(request, 'home.html', context)
+    return render(request=request, template_name="home.html", context=context)
