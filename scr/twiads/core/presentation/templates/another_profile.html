@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Profile</h1>
+{% if request.user not in  user.subscriber.all %}
+    <form method="POST" action="{% url 'subscribe-from-profile' user.username %}">
+        {% csrf_token %}
+        <button type="submit">Subscribe</button>
+    </form>
+{% elif request.user in user.subscriber.all %}
+    <form method="POST" action="{% url 'subscribe-from-profile' user.username %}">
+        {% csrf_token %}
+        <button type="submit">Unsubscribe</button>
+    </form>
+{% endif %}
 <p>{{ user.username }}</p> 
 <p>{{ user.first_name }} {{ user.last_name }}</p>
 {% if user.bio.Null%}
@@ -8,15 +19,10 @@
     <p>Bio: {{ user.bio }}</p>
 {% endif %}
 <p>Email: {{ user.email }}</p>
-{% comment %} <img src="{{ user.avatar.url }}" alt="Avatar"> {% endcomment %}
 <p>Registration Date: {{ user.created_at }}</p>
 <p>Following: {{ user.subscriptions_count }}</p>
 <p>Followers: {{ user.subscribers_count }}</p>
 <p>Country: {{ user.country.name }}</p>
-
-<a href="{% url 'edit-profile' %}">Edit Profile</a>
-
-
 
 <h2>Tweets:</h2>
     <form method="GET" action="{% url 'profile' %}">

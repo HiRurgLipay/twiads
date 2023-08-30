@@ -4,7 +4,7 @@ import logging
 
 from typing import TYPE_CHECKING
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.urls import reverse
 from django.core.paginator import Paginator
@@ -14,8 +14,7 @@ from core.models import Tweet
 from core.presentation.converters import convert_data_from_form_to_dto
 from core.business_logic.services import edit_profile
 from core.business_logic.dto import EditProfileDto
-from core.presentation.forms import SortForm
-from core.presentation.forms import EditProfileForm
+from core.presentation.forms import EditProfileForm, SortForm
 
 
 if TYPE_CHECKING:
@@ -45,7 +44,7 @@ def profile_controller(request: HttpRequest) -> HttpResponse:
     
     context = {"tweets": tweets,
                'form': form,
-                'tweets': page,}
+               'tweets': page,}
     
     return render(request=request, template_name="profile.html", context=context)   
   
