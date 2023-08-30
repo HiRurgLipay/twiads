@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from django.urls import reverse
@@ -49,9 +49,12 @@ def add_tweet_controller(request: HttpRequest) -> HttpResponse:
             logger.info("Invalid form", extra={"post_data": request.POST})
     return HttpResponseBadRequest("Incorrect http method")
 
-@require_http_methods(request_method_list=["GET"])
+
 def get_tweet_controller(request: HttpRequest, tweet_id: int) -> HttpResponse:
     tweet = get_object_or_404(Tweet, id=tweet_id)
-    context = {"tweet": tweet}
-    return render(request=request, template_name="get_tweet.html",context=context)
+    comments = Tweet.objects.filter(parent_tweet=tweet)
+    context = {"tweet": tweet, "comments": comments}
+    return render(request=request, template_name="get_tweet.html", context=context)
+
+
 

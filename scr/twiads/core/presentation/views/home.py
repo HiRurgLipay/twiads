@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 @login_required
 @require_http_methods(["GET"])
 def home_controller(request: HttpRequest) -> HttpResponse:
-    tweets = Tweet.objects.all()
+    tweets = Tweet.objects.filter(parent_tweet=None)
     form = SortForm(request.GET)
     
     if form.is_valid():

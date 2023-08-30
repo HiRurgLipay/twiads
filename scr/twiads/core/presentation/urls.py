@@ -14,6 +14,7 @@ from core.presentation.views import (
     tags_views_controller,
     top_tags_controller,
     like_controller,
+    add_comment_controller,
 )
 
 
@@ -31,5 +32,6 @@ urlpatterns = [
     path("logout/", logout_controller, name="logout"),
     path("tags/", tags_views_controller, name="tags"),
     path("populated/tags/", top_tags_controller, name="top_tags"),
-    path('<int:tweet_id>/like', like_controller, name='like_tweet')
+    path('<int:tweet_id>/like', like_controller, name='like_tweet'),
+    path('comment/<int:tweet_id>/', add_comment_controller, name='comment') 
 ]
