@@ -4,7 +4,7 @@ from core.models import Tweet, Retweet
 
 def retweet_view(request, tweet_id):
     user = request.user
-    tweet = get_object_or_404(Tweet, pk=tweet_id)
+    tweet = get_object_or_404(Tweet, pk=tweet_id, )
     retweet_count = tweet.retweets_count
     
     retweet = Retweet(user=user, tweet=tweet)

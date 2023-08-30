@@ -15,7 +15,7 @@ from core.presentation.views import (
     top_tags_controller,
     like_controller,
     subscriber_controller,
-    another_profile_controller
+    another_profile_controller,
     add_comment_controller,
     retweet_view,
 )
