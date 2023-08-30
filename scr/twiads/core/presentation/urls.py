@@ -16,6 +16,8 @@ from core.presentation.views import (
     like_controller,
     subscriber_controller,
     another_profile_controller
+    add_comment_controller,
+    retweet_view,
 )
 
 
@@ -36,4 +38,6 @@ urlpatterns = [
     path("populated/tags/", top_tags_controller, name="top_tags"),
     path('<int:tweet_id>/like', like_controller, name='like_tweet'),
     path("profile/<str:username>/sub/", subscriber_controller, name="subscribe-from-profile"),
+    path('comment/<int:tweet_id>/', add_comment_controller, name='comment'),
+    path('retweet/<int:tweet_id>/', retweet_view, name='retweet'),
 ]

@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 
 
-from core.models import Tweet
+from core.models import Tweet, Retweet
 from core.presentation.forms import SortForm
 
 from django.core.paginator import Paginator
@@ -18,10 +18,12 @@ if TYPE_CHECKING:
     from django.http import HttpRequest
 
 
+
 @login_required
 @require_http_methods(["GET"])
 def home_controller(request: HttpRequest) -> HttpResponse:
-    tweets = Tweet.objects.all()
+    tweets = Tweet.objects.filter(parent_tweet=None)
+    retweets = Retweet.objects.select_related('tweet')
     form = SortForm(request.GET)
     
     if form.is_valid():
@@ -33,12 +35,14 @@ def home_controller(request: HttpRequest) -> HttpResponse:
     else:
         tweets = tweets.order_by('-created_at')
     
-    paginator = Paginator(tweets, 2)
+    
+    paginator = Paginator(tweets, 10)
     page_number = request.GET.get('page', 1)
     page = paginator.get_page(page_number)
 
     context = {
         'form': form,
         'tweets': page,
+        'retweets': retweets,
     }
     return render(request=request, template_name="home.html", context=context)

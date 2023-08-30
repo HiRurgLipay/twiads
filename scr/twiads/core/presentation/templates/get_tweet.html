@@ -1,22 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Your Tweet</h1>
-  <p>{{ tweet.content|urlize|safe }}</p>
-  <p>Author: {{ tweet.author }}</p>
-  <p>Date: {{ tweet.created_at }}</p>
+  <h1>Tweet</h1>
+  <li><p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ tweet.author.username }}</a></p></li>
+  <li><p>Date: {{ tweet.created_at }}</p></li>
+  <li><p>Content: {{ tweet.content|urlize|safe }}</p></li>
   <li>
     <form action="{% url 'like_tweet' tweet_id=tweet.id %}" method="POST">
         {% csrf_token %}
         <button type="submit" class="like-button">Like</button> {{ tweet.likes_count }}
     </form>
   </li>
-  <p>Comments: {{ tweet.comments_count }}</p>
-  <p>Retweets: {{ tweet.retweets_count }}</p>
+  <li><p>Retweets: {{ tweet.retweets_count }}</p></li>
+  <li>
+    <form action="{% url 'comment' tweet.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="coment-button">Comment</button> {{ tweet.comments_count }}
+    </form>
+  </li>
   <p>Tags:
     {% for tag in tweet.tags.all %}
       {{ tag.name }}
     {% endfor %}
   </p>
+
+  <h2>Comments</h2>
+  {% for comment in comments %}
+    <p>Author: {{ comment.author }}</p>
+    <p>Date: {{ comment.created_at }}</p>
+    <p>Content: {{ comment.content|urlize|safe }}</p>
+    <hr>
+  {% empty %}
+    <p>No comments yet.</p>
+  {% endfor %}
 {% endblock %}
-  
