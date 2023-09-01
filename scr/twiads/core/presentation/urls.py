@@ -18,6 +18,8 @@ from core.presentation.views import (
     another_profile_controller,
     add_comment_controller,
     retweet_view,
+    followings_controller,
+    followers_controller
 )
 
 
@@ -40,4 +42,6 @@ urlpatterns = [
     path("profile/<str:username>/sub/", subscriber_controller, name="subscribe-from-profile"),
     path('comment/<int:tweet_id>/', add_comment_controller, name='comment'),
     path('retweet/<int:tweet_id>/', retweet_view, name='retweet'),
+    path('profile/<str:username>/followings', followings_controller, name='followings'),
+    path('profile/<str:username>/followers', followers_controller, name='followers'),
 ]

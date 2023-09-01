@@ -20,8 +20,10 @@
 {% endif %}
 <p>Email: {{ user.email }}</p>
 <p>Registration Date: {{ user.created_at }}</p>
-<p>Following: {{ user.subscriptions_count }}</p>
-<p>Followers: {{ user.subscribers_count }}</p>
+<p><a href="{% url 'followings' user.username %}">Followings: {{ user.subscriptions_count }}</a></p>
+<p><a href="{% url 'followers' user.username %}">Followers: {{ user.subscribers_count }}</a></p>
+{% comment %} <p>Followings: {{ user.subscriptions_count }}</p>
+<p>Followers: {{ user.subscribers_count }}</p> {% endcomment %}
 <p>Country: {{ user.country.name }}</p>
 
 <h2>Tweets:</h2>
@@ -35,7 +37,7 @@
     </form>
     {% for tweet in tweets %}
     <div class="tweet">
-        <p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ tweet.author.username }}</a></p>
+        <p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'another-profile' username=tweet.author.username %}">@{{ tweet.author.username }}</a></p>
         <p>Date: {{ tweet.created_at }}</p>
         <a href="{% url 'get-tweet' tweet.id %}">{{ tweet.content }}</a>
         <li>

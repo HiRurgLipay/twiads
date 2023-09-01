@@ -7,7 +7,7 @@ from .profile import profile_controller, edit_profile_controller
 from .tags import tags_views_controller
 from .trending_in_your_country import top_tags_controller
 from .like import like_controller
-from .subscriber import subscriber_controller
+from .subscriber import subscriber_controller, followers_controller, followings_controller
 from .another_profile import another_profile_controller
 from .comment import add_comment_controller
 from .retweets import retweet_view
@@ -16,4 +16,4 @@ __all__ = ["home_controller", "get_tweet_controller", "add_tweet_controller", "c
            "registration_controller", "registration_confirmation_controller", "confirm_email_stub_controller", 
            "login_controller", "logout_controller", "profile_controller", "edit_profile_controller", "tags_views_controller", 
            "top_tags_controller", "like_controller", "add_comment_controller", "retweet_view", "subscriber_controller", 
-           "another_profile_controller"]
+           "another_profile_controller", "followers_controller", "followings_controller"]
