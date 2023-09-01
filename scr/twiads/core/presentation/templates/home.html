@@ -14,6 +14,12 @@
     {% for retweet in retweets %}
     <div class="retweet">
         <li><p>@{{ retweet.user.username }} retweeted:</p></li>
+        {% if user.is_authenticated and retweet.user == user %}
+            <form action="{% url 'delete_retweet' tweet_id=retweet.tweet.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Delete Retweet</button>
+            </form>
+        {% endif %}
         <div class="tweet">
             {% if retweet.tweet.author.username == request.user.username %}
                 <li><p>Author: {{ retweet.tweet.author.first_name }} {{ retweet.tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ retweet.tweet.author.username }}</a></p></li>
@@ -26,6 +32,12 @@
                 <form action="{% url 'like_tweet' tweet_id=retweet.tweet.id %}" method="GET">
                     {% csrf_token %}
                     <button type="submit" class="like-button">Like</button> {{ retweet.tweet.likes_count }}
+                </form>
+            </li>
+            <li>
+                <form action="{% url 'comment' retweet.tweet.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="coment-button">Comment</button> {{ retweet.tweet.comments_count }}
                 </form>
             </li>
             <li><p>Tags:

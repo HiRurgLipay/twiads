@@ -1,5 +1,4 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any
 from django.db import transaction
 from core.business_logic.dto import AddTweetDTO
 import logging
@@ -28,8 +27,6 @@ def create_tweet(data: AddTweetDTO) -> None:
         created_tweet.tags.set(tags_list)
         if data.parent_tweet:
             replied_tweet = Tweet.objects.get(id=data.parent_tweet)
-            replies_counter = replied_tweet.reply_counter()
-            replies_counter += 1
-            replied_tweet.reply_counter = replies_counter
             replied_tweet.save()
         logger.info("Successfully created tweet", extra={"author":data.author, 'content':data.content, 'parent_tweet':data.parent_tweet})
+        

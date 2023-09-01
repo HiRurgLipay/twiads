@@ -23,7 +23,7 @@ def registration_controller(request: HttpRequest) -> HttpResponse:
         context = {"form": form}
         return render(request=request, template_name="signup.html", context=context)
 
-    else:
+    elif request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
             data = convert_data_from_form_to_dto(dto=RegistrationDTO, data_from_form=form.cleaned_data)
@@ -32,6 +32,8 @@ def registration_controller(request: HttpRequest) -> HttpResponse:
         else:
             print(form.errors)
             return HttpResponseBadRequest(content="Invalid form data.")
+        
+
 
 
 

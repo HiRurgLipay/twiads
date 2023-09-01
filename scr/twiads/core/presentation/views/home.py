@@ -30,6 +30,7 @@ def home_controller(request: HttpRequest) -> HttpResponse:
         sort_by = form.cleaned_data['sort_by']
         if sort_by == 'Newest':
             tweets = tweets.order_by('-created_at')
+            retweets = retweets.order_by('-created_at')
         elif sort_by == 'Likes':
             tweets = tweets.order_by('-likes_count')
     else:
@@ -45,4 +46,4 @@ def home_controller(request: HttpRequest) -> HttpResponse:
         'tweets': page,
         'retweets': retweets,
     }
-    return render(request=request, template_name="home.html", context=context)
+    return render(request, 'home.html', context)
