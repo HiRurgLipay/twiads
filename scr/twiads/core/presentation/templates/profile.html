@@ -10,8 +10,8 @@
 <p>Email: {{ user.email }}</p>
 {% comment %} <img src="{{ user.avatar.url }}" alt="Avatar"> {% endcomment %}
 <p>Registration Date: {{ user.created_at }}</p>
-<p>Following: {{ user.subscriptions_count }}</p>
-<p>Followers: {{ user.subscribers_count }}</p>
+<p><a href="{% url 'followings' user.username %}">Followings: {{ user.subscriptions_count }}</a></p>
+<p><a href="{% url 'followers' user.username %}">Followers: {{ user.subscribers_count }}</a></p>
 <p>Country: {{ user.country.name }}</p>
 
 <a href="{% url 'edit-profile' %}">Edit Profile</a>
