@@ -17,7 +17,10 @@ from core.presentation.views import (
     subscriber_controller,
     another_profile_controller,
     add_comment_controller,
-    retweet_view,
+    add_retweet_controller,
+    delete_retweet_controller,
+    delete_tweet_controller,
+    delete_comment_controller,
 )
 
 
@@ -39,5 +42,8 @@ urlpatterns = [
     path('<int:tweet_id>/like', like_controller, name='like_tweet'),
     path("profile/<str:username>/sub/", subscriber_controller, name="subscribe-from-profile"),
     path('comment/<int:tweet_id>/', add_comment_controller, name='comment'),
-    path('retweet/<int:tweet_id>/', retweet_view, name='retweet'),
+    path('retweet/<int:tweet_id>/', add_retweet_controller, name='retweet'),
+    path('tweet/<int:tweet_id>/delete/', delete_tweet_controller, name='delete_tweet'),
+    path('tweet/<int:tweet_id>/comment/<int:comment_id>/delete/', delete_comment_controller, name='delete_comment'), 
+    path('delete-retweet/<int:tweet_id>/', delete_retweet_controller, name='delete_retweet'),
 ]

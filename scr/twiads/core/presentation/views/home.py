@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
@@ -30,6 +30,7 @@ def home_controller(request: HttpRequest) -> HttpResponse:
         sort_by = form.cleaned_data['sort_by']
         if sort_by == 'Newest':
             tweets = tweets.order_by('-created_at')
+            retweets = retweets.order_by('-created_at')
         elif sort_by == 'Likes':
             tweets = tweets.order_by('-likes_count')
     else:
@@ -45,4 +46,4 @@ def home_controller(request: HttpRequest) -> HttpResponse:
         'tweets': page,
         'retweets': retweets,
     }
-    return render(request=request, template_name="home.html", context=context)
+    return render(request, 'home.html', context)

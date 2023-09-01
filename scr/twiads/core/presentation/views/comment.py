@@ -5,8 +5,8 @@ from typing import TYPE_CHECKING
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
-from django.http import HttpResponseRedirect, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_http_methods
 from django.urls import reverse
 
@@ -45,3 +45,21 @@ def add_comment_controller(request, tweet_id):
     
     context = {"form": form, "tweet": tweet}
     return render(request=request, template_name="comment.html", context=context)
+
+@login_required
+@require_http_methods(request_method_list=["POST"])
+def delete_comment_controller(request: HttpRequest, tweet_id: int, comment_id: int) -> HttpResponse:
+    tweet = get_object_or_404(Tweet, id=tweet_id)
+    comment = get_object_or_404(Tweet, id=comment_id, parent_tweet=tweet)
+    
+    # Проверяем, является ли пользователь автором этого комментария
+    if comment.author == request.user:
+        # Удаляем комментарий
+        comment.delete()
+        tweet.comments_count -= 1
+        tweet.save()
+        current_page = request.META.get('HTTP_REFERER')
+        return redirect(current_page)
+    else:
+        # Если пользователь не является автором комментария, возвращаем ошибку доступа
+        return HttpResponseForbidden("Access denied")
