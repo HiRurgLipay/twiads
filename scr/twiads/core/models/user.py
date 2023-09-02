@@ -8,7 +8,7 @@ class User(BaseModel, AbstractUser):
     """User model which we add"""
 
     birth_date = models.DateField()
-    avatar = models.ImageField(upload_to="", null=True)
+    avatar = models.ImageField(upload_to="profile/avatar/", null=True)
     subscribers_count = models.PositiveIntegerField(default=0)
     subscriptions_count = models.PositiveIntegerField(default=0)
     tweets_count = models.PositiveIntegerField(default=0)
