@@ -12,6 +12,6 @@ class RegistrationForm(forms.Form):
     email = forms.EmailField(label="Enter email")
     first_name = forms.CharField(label="First Name", max_length=150)
     last_name = forms.CharField(label="Last Name", max_length=150)
-    birth_date = forms.DateField(label="Birth_Date", validators=[MinAgeValidator(min_age=18)])
+    birth_date = forms.DateField(label="Birth_Date", validators=[MinAgeValidator(min_age=18)], widget=forms.TextInput(attrs={'input_format': 'dd.mm.yyyy'}))
 
     country = forms.ChoiceField(label="Country", choices=get_countries())

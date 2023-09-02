@@ -30,8 +30,10 @@ def registration_controller(request: HttpRequest) -> HttpResponse:
             create_user(data=data)
             return redirect(to="confirm-stub")
         else:
-            print(form.errors)
-            return HttpResponseBadRequest(content="Invalid form data.")
+            form = RegistrationForm(request.POST)
+            context = {"form": form}
+            return render(request=request, template_name="signup.html", context=context)
+
         
 
 

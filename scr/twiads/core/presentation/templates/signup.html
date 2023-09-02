@@ -8,11 +8,22 @@
         <nav>
             <a href="{% url 'login' %}">Sign in</a>
         </nav>
+        <h1>Sign Up</h1>
+        <form method="POST" action="{% url 'registration' %}">
+            {% csrf_token %}
+            {% for field in form %}
+                {{ field.label_tag }}: {{ field }}<br>
+                {% if field.errors %}
+                    <ul>
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <br>
+            {% endfor %}
+            <input type="submit" value="Submit">
+        </form>
     </body>
-    <h1>Sing Up</h1>
-    <form method="POST" action="{% url 'registration' %}">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" id="submit"><br>
-    </form>
 </html>
+

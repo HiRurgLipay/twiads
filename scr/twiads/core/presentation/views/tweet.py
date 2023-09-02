@@ -47,7 +47,6 @@ def add_tweet_controller(request: HttpRequest) -> HttpResponse:
             return HttpResponseRedirect(redirect_to=reverse("home"))
         else:
             logger.info("Invalid form", extra={"post_data": request.POST})
-    # return HttpResponseBadRequest("Incorrect http method")
     context = {"form": form}
     return render(request, "add_tweet.html", context=context)
 
