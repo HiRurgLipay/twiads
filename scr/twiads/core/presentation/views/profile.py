@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 
 
-from core.models import Tweet
+from core.models import Tweet, Retweet
 from core.presentation.converters import convert_data_from_form_to_dto
 from core.business_logic.services import edit_profile
 from core.business_logic.dto import EditProfileDto
@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 @require_http_methods(request_method_list=["GET"])
 def profile_controller(request: HttpRequest) -> HttpResponse:
     tweets = Tweet.objects.filter(author=request.user)
+    retweets = Retweet.objects.filter(user=request.user)
     form = SortForm(request.GET)
     
     if form.is_valid():
@@ -43,6 +44,7 @@ def profile_controller(request: HttpRequest) -> HttpResponse:
     page = paginator.get_page(page_number)
     
     context = {"tweets": tweets,
+               "retweets": retweets,
                'form': form,
                'tweets': page,}
     

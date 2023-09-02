@@ -18,7 +18,7 @@ from typing import TYPE_CHECKING
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, get_object_or_404
-from core.models import User, Tweet
+from core.models import User, Tweet, Retweet
 from core.presentation.forms import SortForm
 from django.core.paginator import Paginator
 
@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 def another_profile_controller(request: HttpRequest, username: str) -> HttpResponse:
     user = get_object_or_404(User, username=username)
     tweets = Tweet.objects.filter(author=user)
+    retweets = Retweet.objects.filter(user=user)
     form  = SortForm(request.GET)
     if form.is_valid():
         sort_by = form.cleaned_data['sort_by']
@@ -49,6 +50,7 @@ def another_profile_controller(request: HttpRequest, username: str) -> HttpRespo
     context = {
         "user": user,
         "tweets":tweets,
+        "retweets":retweets,
         "form": form,
         "tweets": page,
     }
