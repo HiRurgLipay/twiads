@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Tweets Feed</h1>
+    
+    <form method="GET" action="{% url 'home' %}">
+        {% csrf_token %}
+        <select name="sort_by">
+            <option value="Newest" {% if request.GET.sort_by == 'Newest' %}selected{% endif %}>Date</option>
+            <option value="Likes" {% if request.GET.sort_by == 'Likes' %}selected{% endif %}>Likes</option>
+        </select>
+        <button type="submit">Sort</button>
+    </form>
+
+    {% for retweet in retweets %}
+    <div class="retweet">
+        <li><p>@{{ retweet.user.username }} retweeted:</p></li>
+        {% if user.is_authenticated and retweet.user == user %}
+            <form action="{% url 'delete_retweet' tweet_id=retweet.tweet.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Delete Retweet</button>
+            </form>
+        {% endif %}
+        <div class="tweet">
+            {% if retweet.tweet.author.username == request.user.username %}
+                <li><p>Author: {{ retweet.tweet.author.first_name }} {{ retweet.tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ retweet.tweet.author.username }}</a></p></li>
+            {% else %}
+                <li><p>Author: {{ retweet.tweet.author.first_name }} {{ retweet.tweet.author.last_name }} <a href="{% url 'another-profile' username=retweet.tweet.author.username %}">@{{ retweet.tweet.author.username }}</a></p></li>
+            {% endif %}
+            <li><p>Date: {{ retweet.tweet.created_at }}</p></li>
+            <li>Content: <a href="{% url 'get-tweet' retweet.tweet.id %}">{{ retweet.tweet.content }}</a></li>
+            <li>
+                <form action="{% url 'like_tweet' tweet_id=retweet.tweet.id %}" method="GET">
+                    {% csrf_token %}
+                    <button type="submit" class="like-button">Like</button> {{ retweet.tweet.likes_count }}
+                </form>
+            </li>
+            <li>
+                <form action="{% url 'comment' retweet.tweet.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="coment-button">Comment</button> {{ retweet.tweet.comments_count }}
+                </form>
+            </li>
+            <li><p>Tags:
+                {% for tag in retweet.tweet.tags.all %}
+                    {{ tag.name }}
+                {% endfor %}
+                <br></br>
+            </p></li>
+        </div>
+    </div>
+    {% endfor %}
+    </ul>
+    {% for tweet in tweets %}
+        <div class="tweet">
+            {% if tweet.author.username == request.user.username %}
+                <li><p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ tweet.author.username }}</a></p></li>
+            {% else %}
+                <li><p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'another-profile' username=tweet.author.username %}">@{{ tweet.author.username }}</a></p></li>
+            {% endif %}  
+            <li><p>Date: {{ tweet.created_at }}</p></li>
+            <li>Content: <a href="{% url 'get-tweet' tweet.id %}">{{ tweet.content }}</a></li>
+            <li>
+                <form action="{% url 'like_tweet' tweet_id=tweet.id %}" method="GET">
+                    {% csrf_token %}
+                    <button type="submit" class="like-button">Like</button> {{ tweet.likes_count }}
+                </form>
+            </li>
+            <li>
+                <form action="{% url 'retweet' tweet.id %}" method="GET">
+                    {% csrf_token %}
+                    <button type="submit" class="Retweet-button">Retweet</button> {{ tweet.retweets_count }}
+                </form>
+            </li>
+            <li>
+                <form action="{% url 'comment' tweet.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="coment-button">Comment</button> {{ tweet.comments_count }}
+                </form>
+            </li>
+            <li><p>Tags:
+                    {% for tag in tweet.tags.all %}
+                        {{ tag.name }}
+                    {% endfor %}
+                    <br></br>
+                </p></li>
+        </div>
+    {% endfor %}
+    </ul>
+
+{% if tweets.has_previous or tweets.has_next %}
+    <div class="pagination">
+        {% if tweets.has_previous %}
+            <a href="?sort_by={{ request.GET.sort_by }}&page={{ tweets.previous_page_number }}">Previous</a>
+        {% endif %}
+        
+        {% for num in tweets.paginator.page_range %}
+            {% if num == tweets.number %}
+                <span class="current-page">{{ num }}</span>
+            {% else %}
+                <a href="?sort_by={{ request.GET.sort_by }}&page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+        
+        {% if tweets.has_next %}
+            <a href="?sort_by={{ request.GET.sort_by }}&page={{ tweets.next_page_number }}">Next</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}
