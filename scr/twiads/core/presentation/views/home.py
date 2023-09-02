@@ -18,64 +18,33 @@ if TYPE_CHECKING:
     from django.http import HttpRequest
 
 
-
 @login_required
 @require_http_methods(["GET"])
 def home_controller(request: HttpRequest) -> HttpResponse:
     tweets = Tweet.objects.filter(parent_tweet=None)
     retweets = Retweet.objects.select_related('tweet')
+    
+    tweets_and_retweets = tweets.union(retweets)
+    
     form = SortForm(request.GET)
     
     if form.is_valid():
         sort_by = form.cleaned_data['sort_by']
         if sort_by == 'Newest':
-            tweets = tweets.order_by('-created_at')
-            retweets = retweets.order_by('-created_at')
+            tweets_and_retweets = tweets_and_retweets.order_by('-created_at')
         elif sort_by == 'Likes':
-            tweets = tweets.order_by('-likes_count')
+            tweets_and_retweets = tweets_and_retweets.order_by('-likes_count')
     else:
-        tweets = tweets.order_by('-created_at')
+        tweets_and_retweets = tweets_and_retweets.order_by('-created_at')
     
-    
-    paginator = Paginator(tweets, 10)
+    paginator = Paginator(tweets_and_retweets, 4)
     page_number = request.GET.get('page', 1)
     page = paginator.get_page(page_number)
-
+    
     context = {
         'form': form,
-        'tweets': page,
-        'retweets': retweets,
+        'tweets': page.filter(type='tweet'), # отфильтровываем только твиты
+        'retweets': page.filter(type='retweet'), # отфильтровываем только ретвиты
+        'tweets_and_retweets': page,
     }
     return render(request, 'home.html', context)
-
-# from itertools import chain
-
-# def home_controller(request: HttpRequest) -> HttpResponse:
-#     tweets = Tweet.objects.filter(parent_tweet=None)
-#     retweets = Retweet.objects.select_related('tweet')
-    
-#     tweets_and_retweets = tweets.union(retweets)
-    
-#     form = SortForm(request.GET)
-    
-#     if form.is_valid():
-#         sort_by = form.cleaned_data['sort_by']
-#         if sort_by == 'Newest':
-#             tweets_and_retweets = tweets_and_retweets.order_by('-created_at')
-#         elif sort_by == 'Likes':
-#             tweets_and_retweets = tweets_and_retweets.order_by('-likes_count')
-#     else:
-#         tweets_and_retweets = tweets_and_retweets.order_by('-created_at')
-    
-#     paginator = Paginator(tweets_and_retweets, 4)
-#     page_number = request.GET.get('page', 1)
-#     page = paginator.get_page(page_number)
-    
-#     context = {
-#         'form': form,
-#         'tweets': page.filter(type='tweet'), # отфильтровываем только твиты
-#         'retweets': page.filter(type='retweet'), # отфильтровываем только ретвиты
-#         'tweets_and_retweets': page,
-#     }
-#     return render(request, 'home.html', context)
-
