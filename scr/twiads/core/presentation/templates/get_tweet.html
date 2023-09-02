@@ -36,27 +36,26 @@
           {% endfor %}
           <br></br>
       </p></li>
-
+    <hr>
   <h2>Comments</h2>
   {% for comment in comments %}
-    {% if user.is_authenticated and comment.author == user %}
-      <form action="{% url 'delete_comment' tweet_id=tweet.id comment_id=comment.id %}" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Delete">
-      </form>
-    {% endif %}
-
-    <p>Author: {{ comment.author }}</p>
-    <p>Date: {{ comment.created_at }}</p>
-    <p>Content: {{ comment.content|urlize|safe }}</p>
-    <form action="{% url 'like_comment' comment_id=comment.id %}" method="POST">
+  {% if user.is_authenticated and comment.author == user %}
+    <form action="{% url 'delete_comment' tweet_id=tweet.id comment_id=comment.id %}" method="post">
       {% csrf_token %}
-      <button type="submit" class="like-comment-button">Like</button> {{ comment.likes_count }}
+      <input type="submit" value="Delete">
     </form>
-  </li>
-    <hr>
-  {% empty %}
-    <p>No comments yet.</p>
-  {% endfor %}
+  {% endif %}
+
+  <p>Author: {{ comment.author }}</p>
+  <p>Date: {{ comment.created_at }}</p>
+  <p>Content: <a href="{% url 'get-tweet' comment.id %}">{{ comment.content|urlize|safe }}</a></p>
+  <form action="{% url 'comment' tweet_id=comment.id %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="comment-button">Comment</button> {{ comment.comments_count }}
+  </form>
+  <hr>
+{% empty %}
+  <p>No comments yet.</p>
+{% endfor %}
 {% endblock %}
     

@@ -27,12 +27,17 @@ def like_tweet_controller(request, tweet_id):
     return redirect(current_page)
 
 
+from django.shortcuts import redirect, get_object_or_404
+from django.views.decorators.http import require_GET
+from django.db.models import Count
+
 @login_required
+@require_GET
 def like_comment_controller(request, comment_id):
     comment = get_object_or_404(Tweet, id=comment_id)
     user = request.user
     
-    like_count = comment.parent_tweet.likes_count
+    like_count = comment.parent_tweet.comments.aggregate(likes_count=Count('likes'))['likes_count']
 
     existing_like = Like.objects.filter(tweet=comment, user=user).first()
     if existing_like:
