@@ -13,7 +13,8 @@ from core.presentation.views import (
     edit_profile_controller,
     tags_views_controller,
     top_tags_controller,
-    like_controller,
+    like_tweet_controller,
+    like_comment_controller,
     subscriber_controller,
     another_profile_controller,
     add_comment_controller,
@@ -23,6 +24,10 @@ from core.presentation.views import (
     delete_retweet_controller,
     delete_tweet_controller,
     delete_comment_controller,
+    notification_controller,
+    like_notification_controller,
+    retweet_notification_controller,
+    comment_notification_controller
 )
 
 
@@ -41,7 +46,7 @@ urlpatterns = [
     path("logout/", logout_controller, name="logout"),
     path("tags/", tags_views_controller, name="tags"),
     path("populated/tags/", top_tags_controller, name="top_tags"),
-    path('<int:tweet_id>/like', like_controller, name='like_tweet'),
+    path('<int:tweet_id>/like', like_tweet_controller, name='like_tweet'),
     path("profile/<str:username>/sub/", subscriber_controller, name="subscribe-from-profile"),
     path('comment/<int:tweet_id>/', add_comment_controller, name='comment'),
     path('profile/<str:username>/followings', followings_controller, name='followings'),
@@ -50,4 +55,9 @@ urlpatterns = [
     path('tweet/<int:tweet_id>/delete/', delete_tweet_controller, name='delete_tweet'),
     path('tweet/<int:tweet_id>/comment/<int:comment_id>/delete/', delete_comment_controller, name='delete_comment'), 
     path('delete-retweet/<int:tweet_id>/', delete_retweet_controller, name='delete_retweet'),
+    path('like_comment/<int:comment_id>/', like_comment_controller, name='like_comment'),
+    path('notifications/', notification_controller, name='notifications'),
+    path('create_like_notification/', like_notification_controller, name='create_like_notification'),
+    path('create_retweet_notification/', retweet_notification_controller, name='create_retweet_notification'),
+    path('create_comment_notification/', comment_notification_controller, name='create_comment_notification'),
 ]

@@ -49,8 +49,14 @@
     <p>Author: {{ comment.author }}</p>
     <p>Date: {{ comment.created_at }}</p>
     <p>Content: {{ comment.content|urlize|safe }}</p>
+    <form action="{% url 'like_comment' comment_id=comment.id %}" method="POST">
+      {% csrf_token %}
+      <button type="submit" class="like-comment-button">Like</button> {{ comment.likes_count }}
+    </form>
+  </li>
     <hr>
   {% empty %}
     <p>No comments yet.</p>
   {% endfor %}
 {% endblock %}
+    

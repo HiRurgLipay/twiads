@@ -7,7 +7,7 @@ from core.models import Tweet, Like
 
 
 @login_required
-def like_controller(request, tweet_id):
+def like_tweet_controller(request, tweet_id):
     tweet = get_object_or_404(Tweet, id=tweet_id)
     user = request.user
     
@@ -22,6 +22,27 @@ def like_controller(request, tweet_id):
         tweet.likes_count = like_count + 1
 
     tweet.save()
+
+    current_page = request.META.get('HTTP_REFERER')
+    return redirect(current_page)
+
+
+@login_required
+def like_comment_controller(request, comment_id):
+    comment = get_object_or_404(Tweet, id=comment_id)
+    user = request.user
+    
+    like_count = comment.parent_tweet.likes_count
+
+    existing_like = Like.objects.filter(tweet=comment, user=user).first()
+    if existing_like:
+        existing_like.delete()
+        comment.parent_tweet.likes_count = like_count - 1
+    else:
+        Like.objects.create(tweet=comment, user=user)
+        comment.parent_tweet.likes_count = like_count + 1
+
+    comment.parent_tweet.save()
 
     current_page = request.META.get('HTTP_REFERER')
     return redirect(current_page)
