@@ -1,10 +1,12 @@
 from dataclasses import dataclass
 from datetime import date
 from typing import Optional
+from django.core.files import File
 
 
 @dataclass
 class EditProfileDto:
+    avatar: File
     username: str
     first_name: str
     last_name: str

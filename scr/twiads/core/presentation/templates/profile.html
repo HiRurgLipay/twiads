@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Profile</h1>
+<img src="{{ user.avatar.url }}" alt="Avatar"> 
 <p>{{ user.username }}</p> 
 <p>{{ user.first_name }} {{ user.last_name }}</p>
 {% if user.bio.Null%}
@@ -8,7 +9,7 @@
     <p>Bio: {{ user.bio }}</p>
 {% endif %}
 <p>Email: {{ user.email }}</p>
-{% comment %} <img src="{{ user.avatar.url }}" alt="Avatar"> {% endcomment %}
+
 <p>Registration Date: {{ user.created_at }}</p>
 <p><a href="{% url 'followings' user.username %}">Followings: {{ user.subscriptions_count }}</a></p>
 <p><a href="{% url 'followers' user.username %}">Followers: {{ user.subscribers_count }}</a></p>

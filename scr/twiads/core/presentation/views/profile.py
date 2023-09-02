@@ -54,6 +54,7 @@ def edit_profile_controller(request: HttpRequest) -> HttpResponse:
     if request.method == "GET":
         user = request.user
         form = EditProfileForm(initial={
+            "avatar": user.avatar,
             "username": user.username,
             "first_name": user.first_name,
             "last_name": user.last_name,
@@ -65,9 +66,10 @@ def edit_profile_controller(request: HttpRequest) -> HttpResponse:
         return render(request=request, template_name="edit_profile.html", context=context)
     
     elif request.method == "POST":
-        form = EditProfileForm(data=request.POST)
+        form = EditProfileForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             data = convert_data_from_form_to_dto(EditProfileDto, data_from_form=form.cleaned_data)
+            print("AAAAAAAAAAAAAAAAAAAAAA data", data)
             user = request.user
             edit_profile(data=data, user=user)
             return HttpResponseRedirect(redirect_to=reverse("profile"))
