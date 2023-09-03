@@ -28,7 +28,7 @@ from core.presentation.views import (
     like_notification_controller,
     retweet_notification_controller,
     comment_notification_controller,
-    edit_tweet_controller
+    edit_tweet_controller,
 )
 
 
@@ -61,5 +61,6 @@ urlpatterns = [
     path('create_like_notification/', like_notification_controller, name='create_like_notification'),
     path('create_retweet_notification/', retweet_notification_controller, name='create_retweet_notification'),
     path('create_comment_notification/', comment_notification_controller, name='create_comment_notification'),
-    path('tweet/<int:tweet_id>/edit/', edit_tweet_controller, name='edit-tweet')
+    path('tweet/<int:tweet_id>/edit/', edit_tweet_controller, name='edit-tweet'),
+    path('confirm-email/', registration_confirmation_controller, name='confirm-email'),
 ]

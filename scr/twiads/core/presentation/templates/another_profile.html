@@ -45,7 +45,11 @@
             </form>
         {% endif %}
         <div class="tweet">
-            <li><p>Author: {{ retweet.tweet.author.first_name }} {{ retweet.tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ retweet.tweet.author.username }}</a></p></li>
+            {% if retweet.tweet.author.username == request.user.username %}
+                <li><p>Author: {{ retweet.tweet.author.first_name }} {{ retweet.tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ retweet.tweet.author.username }}</a></p></li>
+            {% else %}
+                <li><p>Author: {{ retweet.tweet.author.first_name }} {{ retweet.tweet.author.last_name }} <a href="{% url 'another-profile' username=retweet.tweet.author.username %}">@{{ retweet.tweet.author.username }}</a></p></li>
+            {% endif %}
             <li><p>Date: {{ retweet.tweet.created_at }}</p></li>
             <li>Content: <a href="{% url 'get-tweet' retweet.tweet.id %}">{{ retweet.tweet.content }}</a></li>
             <li>
@@ -72,7 +76,11 @@
     </ul>
     {% for tweet in tweets %}
         <div class="tweet">
-            <li><p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ tweet.author.username }}</a></p></li>
+            {% if tweet.author.username == request.user.username %}
+                <li><p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ tweet.author.username }}</a></p></li>
+            {% else %}
+                <li><p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'another-profile' username=tweet.author.username %}">@{{ tweet.author.username }}</a></p></li>
+            {% endif %}
             <li><p>Date: {{ tweet.created_at }}</p></li>
             <li>Content: <a href="{% url 'get-tweet' tweet.id %}">{{ tweet.content }}</a></li>
             <li>

@@ -1,23 +1,23 @@
 from __future__ import annotations
 
-import logging
-import time
-import uuid
 from typing import TYPE_CHECKING
 
-from core.models import User
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.core.mail import send_mail
 from django.urls import reverse
 
-if TYPE_CHECKING:
-    from django.contrib.auth.models import User
-    from core.business_logic.dto import RegistrationDTO
-
 from core.business_logic.exceptions import ConfirmationCodeExpired, ConfirmationCodeNotExists
-from core.models import ConfirmationCode
-from core.models import Country
+from core.models import ConfirmationCode, Country, User
+
+if TYPE_CHECKING:
+    from core.business_logic.dto import RegistrationDTO
+    
+import logging
+import time
+import uuid
+
+
 
 logger = logging.getLogger(__name__)
 

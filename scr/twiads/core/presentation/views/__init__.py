@@ -20,5 +20,5 @@ __all__ = ["home_controller", "get_tweet_controller", "add_tweet_controller", "c
            "top_tags_controller", "like_tweet_controller","like_comment_controller", "add_comment_controller", 
            "add_retweet_controller", "subscriber_controller", "another_profile_controller", "delete_tweet_controller", 
            "delete_comment_controller", "delete_retweet_controller", "followers_controller", "followings_controller", 
-           "notification_controller", "like_notification_controller", "retweet_notification_controller", 
-           "comment_notification_controller", "edit_tweet_controller"]
+           "notification_controller", "like_notification_controller", "retweet_notification_controller", "comment_notification_controller", 
+           "edit_tweet_controller"]

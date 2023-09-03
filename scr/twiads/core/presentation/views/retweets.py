@@ -1,6 +1,5 @@
 from __future__ import annotations
 from django.shortcuts import get_object_or_404, redirect
-from django.http import HttpResponse
 from core.models import Tweet, Retweet
 from typing import TYPE_CHECKING
 
@@ -8,16 +7,11 @@ if TYPE_CHECKING:
     from django.http import HttpRequest
     
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
 
-from django.http import HttpResponse, HttpResponseForbidden
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
-from django.urls import reverse
 
 from core.models import Tweet
-from core.presentation.forms import AddCommentForm
-import logging
 
 def add_retweet_controller(request, tweet_id):
     user = request.user
