@@ -1,5 +1,5 @@
 from .home import home_controller
-from .tweet import get_tweet_controller, add_tweet_controller, delete_tweet_controller
+from .tweet import get_tweet_controller, add_tweet_controller, delete_tweet_controller, edit_tweet_controller
 from .registration import confirm_email_stub_controller, registration_confirmation_controller, registration_controller
 from .login import login_controller
 from .logout import logout_controller
@@ -21,4 +21,4 @@ __all__ = ["home_controller", "get_tweet_controller", "add_tweet_controller", "c
            "add_retweet_controller", "subscriber_controller", "another_profile_controller", "delete_tweet_controller", 
            "delete_comment_controller", "delete_retweet_controller", "followers_controller", "followings_controller", 
            "notification_controller", "like_notification_controller", "retweet_notification_controller", 
-           "comment_notification_controller",]
+           "comment_notification_controller", "edit_tweet_controller"]

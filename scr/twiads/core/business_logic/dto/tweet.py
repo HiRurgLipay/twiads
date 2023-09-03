@@ -12,4 +12,9 @@ class AddTweetDTO:
     tags : str
     author : Optional['User'] 
     parent_tweet : Tweet | None
-    
+
+
+@dataclass
+class EditTweetDTO:
+    content : str
+    tags : str
