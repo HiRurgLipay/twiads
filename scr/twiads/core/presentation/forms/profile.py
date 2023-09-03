@@ -14,22 +14,10 @@ class EditProfileForm(forms.Form):
     email = forms.EmailField(label='Email')
     bio = forms.CharField(required=False, max_length=50)
     avatar = forms.ImageField(
-        required=False,
-        label='Avatar',
-        allow_empty_file=False,
-        validators=[ValidateFileExtension(["png", "jpg", "jpeg"]), ValidateFileSize(max_size=5_000_000)]
-    )
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AVATAR", avatar)
+       label='Avatar',
+       allow_empty_file=False,
+       validators=[ValidateFileExtension(["png", "jpg", "jpeg"]), ValidateFileSize(max_size=5_000_000)]
+   )
+
     country = forms.ChoiceField(label='Country', choices=get_countries())
-
-
-# class ProfileForm(forms.Form):
-#     username = forms.CharField(max_length=30)
-#     first_name = forms.CharField(max_length=30)
-#     last_name = forms.CharField(max_length=30)
-#     birth_date = forms.DateField(label="Birth Date")
-#     email = forms.EmailField(label='Email')
-#     bio = forms.CharField(required=False, max_length=50)
-#     following = forms.IntegerField(label="Following",min_value=0)
-#     followers = forms.IntegerField(label="Followers",min_value=0)
-#     country = forms.ChoiceField(label='Country', choices=get_countries())
+    change_email = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput())

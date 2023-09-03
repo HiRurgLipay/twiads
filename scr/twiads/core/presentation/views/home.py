@@ -58,9 +58,11 @@ def home_controller(request: HttpRequest) -> HttpResponse:
     followed_users = current_user.subscriptions.all()
     
     tweets = Tweet.objects.filter(Q(author=current_user) | Q(author__in=followed_users), parent_tweet=None)
-    retweets = Retweet.objects.select_related('tweet').filter(Q(tweet__author__in=followed_users) | Q(user=current_user))
+    retweets = Tweet.objects.prefetch_related('retweets').filter(retweets__user__in=followed_users)
+    
     
     tweets_and_retweets = tweets.union(retweets)
+    
     
     form = SortForm(request.GET)
     
@@ -79,8 +81,9 @@ def home_controller(request: HttpRequest) -> HttpResponse:
     
     context = {
         'form': form,
-        'tweets': page.filter(type='tweet'), # отфильтровываем только твиты
-        'retweets': page.filter(type='retweet'), # отфильтровываем только ретвиты
+        'tweets': tweets,
+        'retweets': retweets,
         'tweets_and_retweets': page,
+        # 'pages': page
     }
     return render(request, 'home.html', context)

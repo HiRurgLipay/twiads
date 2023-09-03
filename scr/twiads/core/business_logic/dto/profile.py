@@ -6,7 +6,7 @@ from django.core.files import File
 
 @dataclass
 class EditProfileDto:
-    avatar: File
+    avatar: File | None 
     username: str
     first_name: str
     last_name: str
@@ -14,3 +14,4 @@ class EditProfileDto:
     email: str
     bio: str
     country: Optional[str]
+    
