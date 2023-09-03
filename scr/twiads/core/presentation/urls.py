@@ -28,6 +28,7 @@ from core.presentation.views import (
     like_notification_controller,
     retweet_notification_controller,
     comment_notification_controller,
+    edit_tweet_controller,
 )
 
 
@@ -38,7 +39,7 @@ urlpatterns = [
     path('profile/<str:username>/', another_profile_controller, name='another-profile'),
     path("profile/edit", edit_profile_controller, name="edit-profile"),
     path("tweet/add/", add_tweet_controller, name="add-tweet"),
-    path("tweet//<int:tweet_id>/", get_tweet_controller, name="get-tweet"),
+    path("tweet/<int:tweet_id>/", get_tweet_controller, name="get-tweet"),
     path("signup/", registration_controller, name="registration"),
     path("confirmation/", registration_confirmation_controller, name="confirm-signup"),
     path("confirm/note/", confirm_email_stub_controller, name="confirm-stub"),
@@ -60,6 +61,6 @@ urlpatterns = [
     path('create_like_notification/', like_notification_controller, name='create_like_notification'),
     path('create_retweet_notification/', retweet_notification_controller, name='create_retweet_notification'),
     path('create_comment_notification/', comment_notification_controller, name='create_comment_notification'),
+    path('tweet/<int:tweet_id>/edit/', edit_tweet_controller, name='edit-tweet'),
     path('confirm-email/', registration_confirmation_controller, name='confirm-email'),
-
 ]

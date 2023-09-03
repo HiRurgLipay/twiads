@@ -36,7 +36,15 @@
           {% endfor %}
           <br></br>
       </p></li>
-    <hr>
+  {% if tweet.author == request.user %}
+    <li>
+        <form action="{% url 'edit-tweet' tweet_id=tweet.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="coment-button">Edit Tweet</button>
+        </form>
+    </li>
+  {% endif %}
+  <hr>
   <h2>Comments</h2>
   {% for comment in comments %}
   {% if user.is_authenticated and comment.author == user %}
