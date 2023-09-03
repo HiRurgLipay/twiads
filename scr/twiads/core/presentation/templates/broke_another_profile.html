@@ -1,24 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Tweets Feed</h1>
-    
-    <form method="GET" action="{% url 'home' %}">
+<h1>Profile</h1>
+{% if request.user not in  user.subscriber.all %}
+    <form method="POST" action="{% url 'subscribe-from-profile' user.username %}">
         {% csrf_token %}
-        <select name="sort_by">
-            <option value="Newest" {% if request.GET.sort_by == 'Newest' %}selected{% endif %}>Date</option>
-            <option value="Likes" {% if request.GET.sort_by == 'Likes' %}selected{% endif %}>Likes</option>
-        </select>
-        <button type="submit">Sort</button>
+        <button type="submit">Subscribe</button>
     </form>
-    
-{% for item in tweets_and_retweets %}
+{% elif request.user in user.subscriber.all %}
+    <form method="POST" action="{% url 'subscribe-from-profile' user.username %}">
+        {% csrf_token %}
+        <button type="submit">Unsubscribe</button>
+    </form>
+{% endif %}
+<p>{{ user.username }}</p> 
+<p>{{ user.first_name }} {{ user.last_name }}</p>
+{% if user.bio.Null%}
+{% elif user.bio %}
+    <p>Bio: {{ user.bio }}</p>
+{% endif %}
+<p>Email: {{ user.email }}</p>
+<p>Registration Date: {{ user.created_at }}</p>
+<p><a href="{% url 'followings' user.username %}">Followings: {{ user.subscriptions_count }}</a></p>
+<p><a href="{% url 'followers' user.username %}">Followers: {{ user.subscribers_count }}</a></p>
+{% comment %} <p>Followings: {{ user.subscriptions_count }}</p>
+<p>Followers: {{ user.subscribers_count }}</p> {% endcomment %}
+<p>Country: {{ user.country.name }}</p>
+
+<h2>Tweets:</h2>
+    {% for item in tweets_and_retweets %}
     {% if item in tweets %}
         <div class="tweet">
-            {% if item.author.username == request.user.username %}
-                <li><p>Author: {{ item.author.first_name }} {{ item.author.last_name }} <a href="{% url 'profile' %}">@{{ item.author.username }}</a></p></li>
-            {% else %}
-                <li><p>Author: {{ item.author.first_name }} {{ item.author.last_name }} <a href="{% url 'another-profile' username=item.author.username %}">@{{ item.author.username }}</a></p></li>
-            {% endif %}
+            <li><p>Author: {{ item.author.first_name }} {{ item.author.last_name }} <a href="{% url 'another-profile' username=item.author.username %}">@{{ item.author.username }}</a></p></li>
             <li><p>Date: {{ item.created_at }}</p></li>
             <li>Content: <a href="{% url 'get-tweet' item.id %}">{{ item.content }}</a></li>
             <li>
@@ -55,7 +67,7 @@
                 {% else %}
                     <li><p>Author: {{ item.author.first_name }} {{ item.author.last_name }} <a href="{% url 'another-profile' username=item.author.username %}">@{{ item.author.username }}</a></p></li>
                 {% endif %}
-                <li><p>Date: {{ item.created_at }}</p></li>
+                <li><p>Date: {{ item.tweet.created_at }}</p></li>
                 <li>Content: <a href="{% url 'get-tweet' item.id %}">{{ item.content }}</a></li>
                 <li>
                     <form action="{% url 'like_tweet' tweet_id=item.id %}" method="GET">

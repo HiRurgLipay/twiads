@@ -60,7 +60,6 @@ def home_controller(request: HttpRequest) -> HttpResponse:
     tweets = Tweet.objects.filter(Q(author=current_user) | Q(author__in=followed_users), parent_tweet=None)
     retweets = Tweet.objects.prefetch_related('retweets').filter(retweets__user__in=followed_users)
     
-    
     tweets_and_retweets = tweets.union(retweets)
     
     
@@ -84,6 +83,5 @@ def home_controller(request: HttpRequest) -> HttpResponse:
         'tweets': tweets,
         'retweets': retweets,
         'tweets_and_retweets': page,
-        # 'pages': page
     }
     return render(request, 'home.html', context)

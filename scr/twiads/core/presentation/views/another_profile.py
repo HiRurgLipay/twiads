@@ -1,15 +1,3 @@
-# from django.shortcuts import render, get_object_or_404
-# from core.models import User, Tweet
-
-# def another_profile_controller(request, username):
-#     user = get_object_or_404(User, username=username)
-#     tweets = Tweet.objects.filter(author=user)
-#     context = {
-#         'user': user,
-#         'tweets': tweets
-#     }
-#     return render(request=request, template_name='another_profile.html', context=context)
-
 from __future__ import annotations
 
 import logging
@@ -55,3 +43,28 @@ def another_profile_controller(request: HttpRequest, username: str) -> HttpRespo
         "tweets": page,
     }
     return render(request=request, template_name='another_profile.html', context=context)
+
+# @require_http_methods(request_method_list=["GET"])
+# def another_profile_controller(request: HttpRequest, username: str) -> HttpResponse:
+    
+#     user = get_object_or_404(User, username=username)
+#     tweets = Tweet.objects.filter(author=user)
+#     retweets = Tweet.objects.prefetch_related('retweets').filter(author=user)
+    
+#     tweets_and_retweets = tweets.union(retweets)
+    
+#     form  = SortForm(request.GET)
+#     tweets_and_retweets = tweets_and_retweets.order_by('-created_at')
+    
+#     paginator = Paginator(tweets_and_retweets, 2)
+#     page_number = request.GET.get('page', 1)
+#     page = paginator.get_page(page_number)
+  
+#     context = {
+#         "user": user,
+#         "tweets":tweets,
+#         "retweets":retweets,
+#         "form": form,
+#         'tweets_and_retweets': page,
+#     }
+#     return render(request=request, template_name='another_profile.html', context=context)

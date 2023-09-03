@@ -6,8 +6,9 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.urls import reverse
 
-from core.models import ConfirmationCode, User, Country
+from core.models import ConfirmationCode, User, Country, Tweet, Retweet
 from core.business_logic.services.common import replace_file_name_to_uuid, change_file_size
+
 
 import uuid
 import time
@@ -18,7 +19,6 @@ if TYPE_CHECKING:
 
 
 def edit_profile(data: EditProfileDto, user: User) -> None:
-    
     with transaction.atomic():
         if data.avatar:
             data.avatar = replace_file_name_to_uuid(file=data.avatar)
@@ -58,3 +58,35 @@ def edit_profile(data: EditProfileDto, user: User) -> None:
                 recipient_list=[data.email],
             )
 
+
+# def get_another_profile(username: str) -> None:
+#     with transaction.atomic():
+#         user = get_object_or_404(User, username=username)
+#         tweets = Tweet.objects.filter(author=user)
+#         retweets = Retweet.objects.filter(user=user)
+
+
+
+# @require_http_methods(request_method_list=["GET"])
+# def another_profile_controller(request: HttpRequest, username: str) -> HttpResponse:
+#     user = get_object_or_404(User, username=username)
+#     retweets = Retweet.objects.filter(user=user)
+#     form = SortForm(request.GET)
+#     if form.is_valid():
+#         sort_by = form.cleaned_data['sort_by']
+#     else:
+#         sort_by = None
+
+#     tweets = sort_tweets(get_user_tweets(user), sort_by)
+    
+#     paginator = Paginator(tweets, 2)
+#     page_number = request.GET.get('page', 1)
+#     page = paginator.get_page(page_number)
+    
+#     context = {
+#         "user": user,
+#         "tweets": page,
+#         "retweets": retweets,
+#         "form": form,
+#     }
+#     return render(request=request, template_name='another_profile.html', context=context)
