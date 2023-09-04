@@ -59,17 +59,17 @@ def edit_profile(data: EditProfileDto, user: User) -> None:
             )
 
 
-def initialize_profile(user):
-    initial_data = {
-        "avatar": user.avatar,
-        "username": user.username,
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "email": user.email,
-        "birth_date": user.birth_date,
-        "country": user.country.name
-    }
-    return initial_data
+# def initialize_profile(user):
+#     initial_data = {
+#         "avatar": user.avatar,
+#         "username": user.username,
+#         "first_name": user.first_name,
+#         "last_name": user.last_name,
+#         "email": user.email,
+#         "birth_date": user.birth_date,
+#         "country": user.country.name
+#     }
+#     return initial_data
 # def get_another_profile(username: str) -> None:
 #     with transaction.atomic():
 #         user = get_object_or_404(User, username=username)
