@@ -6,20 +6,13 @@
     <div class="tweet">
         <li><p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ tweet.author.username }}</a></p></li>
         <li><p>Date: {{ tweet.created_at }}</p></li>
-        <li><p>{{ tweet.content|urlize|safe }}</p></li>
+        <li><p>Content: {{ tweet.content|urlize|safe }}</p></li>
         <li>
           <form action="{% url 'like_tweet' tweet_id=tweet.id %}" method="POST">
               {% csrf_token %}
               <button type="submit" class="like-button">Like</button> {{ tweet.likes_count }}
           </form>
         </li>
-        <li><p>Retweets: {{ tweet.retweets_count }}</p></li>
-        <li><p>Tags:
-            {% for tag in tweet.tags.all %}
-                {{ tag.name }}
-            {% endfor %}
-            <br></br>
-            </p></li>
     </div>
 
     <form method="POST" action="{% url 'comment' tweet.id %}">
