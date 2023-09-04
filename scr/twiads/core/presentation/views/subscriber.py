@@ -1,16 +1,14 @@
 from __future__ import annotations
 
-import logging
-
 from typing import TYPE_CHECKING
+
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_http_methods
+
 from core.models import User
 from core.business_logic.services import subscribe_and_unsubscribe
 from core.business_logic.dto import SubscriberDTO
-
-from django.shortcuts import redirect
 
 if TYPE_CHECKING:
     from django.http import HttpRequest

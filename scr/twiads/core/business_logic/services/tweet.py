@@ -49,12 +49,3 @@ def edit_tweet(data: EditTweetDTO, tweet_id: int) -> None:
         tweet.tags.clear()
         tweet.tags.set(tags_list)
         tweet.save()
-
-
-# def initialize_tweet(tweet_id: int):
-#     tweet = get_object_or_404(Tweet, id=tweet_id)
-#     initial_data = {
-#         'content': tweet.content,
-#         'tags': "\r\n".join(tweet.tags.values_list('name', flat=True))
-#     }
-#     return initial_data

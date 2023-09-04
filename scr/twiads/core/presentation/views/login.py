@@ -7,14 +7,14 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
 
-if TYPE_CHECKING:
-    from django.http import HttpRequest
-
 from core.business_logic.dto import LoginDTO
 from core.business_logic.exceptions import InvalidAuthCredentials
 from core.business_logic.services import authenticate_user
 from core.presentation.converters import convert_data_from_form_to_dto
 from core.presentation.forms import LoginForm
+
+if TYPE_CHECKING:
+    from django.http import HttpRequest
 
 
 @require_http_methods(["GET", "POST"])

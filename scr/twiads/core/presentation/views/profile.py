@@ -19,10 +19,9 @@ from core.business_logic.services import confirm_user_registration, edit_profile
 from core.business_logic.dto import EditProfileDto
 from core.presentation.forms import EditProfileForm, SortForm
 
-
-
 if TYPE_CHECKING:
     from django.http import HttpRequest
+
 
 logger = logging.getLogger(__name__)
 

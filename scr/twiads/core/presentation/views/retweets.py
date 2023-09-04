@@ -1,17 +1,12 @@
 from __future__ import annotations
+
 from django.shortcuts import get_object_or_404, redirect
-from core.models import Tweet, Retweet
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from django.http import HttpRequest
-    
 from django.contrib.auth.decorators import login_required
-
 from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
 
-from core.models import Tweet
+from core.models import Tweet, Retweet
+
 
 def add_retweet_controller(request, tweet_id):
     user = request.user

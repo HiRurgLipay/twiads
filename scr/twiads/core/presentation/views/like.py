@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, get_object_or_404
+from django.views.decorators.http import require_GET
+from django.db.models import Count
 
 from core.models import Tweet, Like
 
@@ -26,10 +29,6 @@ def like_tweet_controller(request, tweet_id):
     current_page = request.META.get('HTTP_REFERER')
     return redirect(current_page)
 
-
-from django.shortcuts import redirect, get_object_or_404
-from django.views.decorators.http import require_GET
-from django.db.models import Count
 
 @login_required
 @require_GET

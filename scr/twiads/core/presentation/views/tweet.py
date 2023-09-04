@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
-
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
@@ -14,6 +13,7 @@ from core.presentation.converters import convert_data_from_form_to_dto
 from core.business_logic.dto import AddTweetDTO, EditTweetDTO
 from core.models import Tweet
 from core.presentation.forms import AddTweetForm, EditTweetForm
+
 import logging
 
 
@@ -47,6 +47,8 @@ def add_tweet_controller(request: HttpRequest) -> HttpResponse:
     return render(request, "add_tweet.html", context=context)
 
 
+@login_required
+@require_http_methods(request_method_list=["GET"])
 def get_tweet_controller(request: HttpRequest, tweet_id: int) -> HttpResponse:
     tweet = get_object_or_404(Tweet, id=tweet_id)
     comments = Tweet.objects.filter(parent_tweet=tweet)

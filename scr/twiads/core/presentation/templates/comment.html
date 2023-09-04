@@ -4,7 +4,11 @@
     <h1>Comment on Tweet</h1>
 
     <div class="tweet">
-        <li><p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ tweet.author.username }}</a></p></li>
+        {% if tweet.author.username == request.user.username %}
+            <li><p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'profile' %}">@{{ tweet.author.username }}</a></p></li>
+        {% else %}
+            <li><p>Author: {{ tweet.author.first_name }} {{ tweet.author.last_name }} <a href="{% url 'another-profile' username=tweet.author.username %}">@{{ tweet.author.username }}</a></p></li>
+        {% endif %}
         <li><p>Date: {{ tweet.created_at }}</p></li>
         <li><p>Content: {{ tweet.content|urlize|safe }}</p></li>
         <li>

@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_http_methods
@@ -12,9 +11,8 @@ from django.urls import reverse
 
 from core.models import Tweet
 from core.presentation.forms import AddCommentForm
+
 import logging
-
-
 
 if TYPE_CHECKING:
     from django.http import HttpRequest
@@ -23,8 +21,6 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 User = get_user_model()
-
-
 
 
 @login_required
@@ -52,7 +48,6 @@ def delete_comment_controller(request: HttpRequest, tweet_id: int, comment_id: i
     tweet = get_object_or_404(Tweet, id=tweet_id)
     comment = get_object_or_404(Tweet, id=comment_id, parent_tweet=tweet)
     
-    # Проверяем, является ли пользователь автором этого комментария
     if comment.author == request.user:
         # Удаляем комментарий
         comment.delete()
@@ -61,5 +56,4 @@ def delete_comment_controller(request: HttpRequest, tweet_id: int, comment_id: i
         current_page = request.META.get('HTTP_REFERER')
         return redirect(current_page)
     else:
-        # Если пользователь не является автором комментария, возвращаем ошибку доступа
         return HttpResponseForbidden("Access denied")

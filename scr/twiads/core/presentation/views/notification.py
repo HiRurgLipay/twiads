@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from core.models import Notification, NotificationType, Like, Retweet, Tweet
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from core.models import Notification, NotificationType, Like, Retweet, Tweet
 
 @login_required
 def notification_controller(request):

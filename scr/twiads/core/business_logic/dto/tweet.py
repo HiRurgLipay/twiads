@@ -10,7 +10,7 @@ from typing import Optional
 class AddTweetDTO:
     content : str
     tags : str
-    author : Optional['User'] 
+    author : Optional["User"] 
     parent_tweet : Tweet | None
 
 
