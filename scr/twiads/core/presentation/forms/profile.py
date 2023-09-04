@@ -15,6 +15,7 @@ class EditProfileForm(forms.Form):
     bio = forms.CharField(required=False, max_length=50)
     avatar = forms.ImageField(
        label='Avatar',
+       required=False,
        allow_empty_file=False,
        validators=[ValidateFileExtension(["png", "jpg", "jpeg"]), ValidateFileSize(max_size=5_000_000)]
    )
