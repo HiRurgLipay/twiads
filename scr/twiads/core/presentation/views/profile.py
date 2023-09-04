@@ -82,7 +82,7 @@ def edit_profile_controller(request: HttpRequest) -> HttpResponse:
             else:
                 form = EditProfileForm(request.POST)
                 context = {"form": form}
-                return render(request=request, template_name="edit-profile", context=context)
+                return render(request=request, template_name="edit_profile.html", context=context)
             
 
 @require_http_methods(["GET"])
