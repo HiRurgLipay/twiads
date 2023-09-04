@@ -3,8 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
-
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_http_methods
@@ -22,14 +20,10 @@ if TYPE_CHECKING:
     
 logger = logging.getLogger(__name__)
 
-User = get_user_model()
-
-
-
 
 @login_required
 @require_http_methods(request_method_list=["GET", "POST"])
-def add_comment_controller(request, tweet_id):
+def add_comment_controller(request: HttpRequest, tweet_id: int) -> HttpResponse:
     tweet = get_object_or_404(Tweet, id=tweet_id)
     
     if request.method == "POST":
@@ -52,14 +46,11 @@ def delete_comment_controller(request: HttpRequest, tweet_id: int, comment_id: i
     tweet = get_object_or_404(Tweet, id=tweet_id)
     comment = get_object_or_404(Tweet, id=comment_id, parent_tweet=tweet)
     
-    # Проверяем, является ли пользователь автором этого комментария
     if comment.author == request.user:
-        # Удаляем комментарий
         comment.delete()
         tweet.comments_count -= 1
         tweet.save()
         current_page = request.META.get('HTTP_REFERER')
         return redirect(current_page)
     else:
-        # Если пользователь не является автором комментария, возвращаем ошибку доступа
         return HttpResponseForbidden("Access denied")

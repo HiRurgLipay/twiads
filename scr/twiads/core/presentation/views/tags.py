@@ -9,10 +9,14 @@ from django.core.paginator import Paginator
 
 from core.models import Tweet
 
+from django.http import HttpResponse
+
+if TYPE_CHECKING:
+    from django.http import HttpRequest
 
 @login_required
 @require_http_methods(["GET"])
-def tags_views_controller(request):
+def tags_views_controller(request: HttpRequest) -> HttpResponse:
     tags = request.GET.get('tags')
     tweets = Tweet.objects.filter(tags__name__icontains=tags) if tags else None
     

@@ -1,19 +1,19 @@
 from __future__ import annotations
+
 from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from django.views.decorators.http import require_http_methods
 from core.models import Tweet, Retweet
+
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from django.http import HttpRequest
     
-from django.contrib.auth.decorators import login_required
 
-from django.shortcuts import get_object_or_404, redirect
-from django.views.decorators.http import require_http_methods
-
-from core.models import Tweet
-
-def add_retweet_controller(request, tweet_id):
+def add_retweet_controller(request: HttpRequest, tweet_id: int) -> HttpResponse:
     user = request.user
     tweet = get_object_or_404(Tweet, pk=tweet_id, )
     retweet_count = tweet.retweets_count
@@ -29,7 +29,7 @@ def add_retweet_controller(request, tweet_id):
 
 @login_required
 @require_http_methods(request_method_list=["POST"])
-def delete_retweet_controller(request, tweet_id):
+def delete_retweet_controller(request: HttpRequest, tweet_id: int) -> HttpResponse:
     user = request.user
     tweet = get_object_or_404(Tweet, pk=tweet_id)
     

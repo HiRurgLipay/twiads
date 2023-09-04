@@ -34,10 +34,6 @@ def registration_controller(request: HttpRequest) -> HttpResponse:
             context = {"form": form}
             return render(request=request, template_name="signup.html", context=context)
 
-        
-
-
-
 
 @require_http_methods(["GET"])
 def confirm_email_stub_controller(request: HttpRequest) -> HttpResponse:

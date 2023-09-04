@@ -1,9 +1,6 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
 from core.models import User, Tweet 
 from typing import Optional
-
 
 
 @dataclass

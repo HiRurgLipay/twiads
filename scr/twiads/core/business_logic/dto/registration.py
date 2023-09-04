@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from datetime import date
-from core.models import Country
 from typing import Optional
 
 @dataclass

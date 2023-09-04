@@ -14,7 +14,7 @@
 {% for item in tweets_and_retweets %}
     {% if item in tweets %}
         <div class="tweet">
-                {% if item.author.username == request.user.username %}
+            {% if item.author.username == request.user.username %}
                 <li><p>Author: {{ item.author.first_name }} {{ item.author.last_name }} <a href="{% url 'profile' %}">@{{ item.author.username }}</a></p></li>
             {% else %}
                 <li><p>Author: {{ item.author.first_name }} {{ item.author.last_name }} <a href="{% url 'another-profile' username=item.author.username %}">@{{ item.author.username }}</a></p></li>
