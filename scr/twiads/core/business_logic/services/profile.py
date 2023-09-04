@@ -37,8 +37,6 @@ def edit_profile(data: EditProfileDto, user: User) -> None:
             country = country
         )
         
-        user.save()
-        
         if data.email != user.email:
             user.email = data.email
             user.is_active = False
