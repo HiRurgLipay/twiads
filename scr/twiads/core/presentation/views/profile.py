@@ -15,7 +15,7 @@ from django.db.models import Q
 from core.business_logic.exceptions import ConfirmationCodeExpired, ConfirmationCodeNotExists
 from core.models import Tweet, User
 from core.presentation.converters import convert_data_from_form_to_dto
-from core.business_logic.services import confirm_user_registration, edit_profile
+from core.business_logic.services import confirm_user_registration, edit_profile, initialize_profile
 from core.business_logic.dto import EditProfileDto
 from core.presentation.forms import EditProfileForm, SortForm
 
