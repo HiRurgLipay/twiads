@@ -2,12 +2,18 @@ from __future__ import annotations
 
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 from core.models import Tweet, Like
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from django.http import HttpRequest
+
 
 @login_required
-def like_tweet_controller(request, tweet_id):
+def like_tweet_controller(request: HttpRequest, tweet_id: int) -> HttpResponse:
     tweet = get_object_or_404(Tweet, id=tweet_id)
     user = request.user
     

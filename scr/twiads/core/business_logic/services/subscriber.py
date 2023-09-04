@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
 from django.db import transaction
+
 from core.models import User
 
 if TYPE_CHECKING:

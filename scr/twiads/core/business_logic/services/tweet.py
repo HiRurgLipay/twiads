@@ -1,8 +1,11 @@
 from __future__ import annotations
+
 from django.db import transaction
-from core.business_logic.dto import AddTweetDTO, EditTweetDTO
-import logging
 from django.shortcuts import get_object_or_404
+
+from core.business_logic.dto import AddTweetDTO, EditTweetDTO
+
+import logging
 
 from core.models import Tweet, Tag
 
@@ -49,12 +52,3 @@ def edit_tweet(data: EditTweetDTO, tweet_id: int) -> None:
         tweet.tags.clear()
         tweet.tags.set(tags_list)
         tweet.save()
-
-
-# def initialize_tweet(tweet_id: int):
-#     tweet = get_object_or_404(Tweet, id=tweet_id)
-#     initial_data = {
-#         'content': tweet.content,
-#         'tags': "\r\n".join(tweet.tags.values_list('name', flat=True))
-#     }
-#     return initial_data

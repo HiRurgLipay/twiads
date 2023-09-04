@@ -1,12 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.core.files import File
-from datetime import date
 
-def validate_swear_words_in_company_name(value: str) -> None:
-    if "fuck" in value.lower():
-        raise ValidationError(message="Company name contains swear word.")
-    else:
-        return None
+from datetime import date
 
 
 class ValidateMaxTagCount:
@@ -20,8 +15,6 @@ class ValidateMaxTagCount:
             raise ValidationError(message=f"Max number of tags is {self._max_count}")
         else:
             return None
-        
-
 
 
 class MinAgeValidator:
@@ -34,7 +27,6 @@ class MinAgeValidator:
 
         if age < self.min_age:
             raise ValidationError(f"You must be at least {self.min_age} years old.")
-
 
 
 class ValidateFileExtension:

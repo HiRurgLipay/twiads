@@ -6,13 +6,15 @@ from typing import TYPE_CHECKING
 from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, get_object_or_404
-from core.models import User, Tweet, Retweet
-from core.presentation.forms import SortForm
 from django.core.paginator import Paginator
 from django.db.models import Q
 
+from core.models import User, Tweet, Retweet
+from core.presentation.forms import SortForm
+
 if TYPE_CHECKING:
     from django.http import HttpRequest
+
 
 logger = logging.getLogger(__name__)
 

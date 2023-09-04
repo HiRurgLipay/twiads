@@ -1,6 +1,8 @@
 from django import forms
+
 from core.models import Country
 from core.presentation.validators import ValidateFileExtension, ValidateFileSize
+
 
 def get_countries() -> list:
     USER_COUNTRY_CHOICES = [(country.name, country.name) for country in Country.objects.all()]

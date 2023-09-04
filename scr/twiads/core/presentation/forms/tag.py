@@ -1,5 +1,6 @@
 from django import forms
 
+
 class TagForm(forms.ModelForm):
     name = forms.CharField(max_length=50)
     
