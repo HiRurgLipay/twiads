@@ -20,11 +20,11 @@ from core.business_logic.dto import EditProfileDto
 from core.presentation.forms import EditProfileForm, SortForm
 
 
+
 if TYPE_CHECKING:
     from django.http import HttpRequest
 
 logger = logging.getLogger(__name__)
-
 
 
 @require_http_methods(request_method_list=["GET"])
@@ -40,11 +40,10 @@ def profile_controller(request: HttpRequest) -> HttpResponse:
     form  = SortForm(request.GET)
     tweets_and_retweets = tweets_and_retweets.order_by('-created_at')
     
-    
     paginator = Paginator(tweets, 2)
     page_number = request.GET.get('page', 1)
     page = paginator.get_page(page_number)
-    
+
     context = {"tweets": tweets,
                "retweets": retweets,
                "form": form,
@@ -62,15 +61,8 @@ def edit_profile_controller(request: HttpRequest) -> HttpResponse:
     if request.method == "GET":
         if request.user.is_authenticated:
             user = request.user
-            form = EditProfileForm(initial={
-                "avatar": user.avatar,
-                "username": user.username,
-                "first_name": user.first_name,
-                "last_name": user.last_name,
-                "email": user.email,
-                "birth_date": user.birth_date,
-                "country": user.country.name
-            })
+            initial_data = initialize_profile(user)
+            form = EditProfileForm(initial=initial_data)
             context = {"form": form}
             return render(request=request, template_name="edit_profile.html", context=context)
         else:

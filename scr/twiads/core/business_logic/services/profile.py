@@ -1,11 +1,11 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-
+from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.conf import settings
 from django.core.mail import send_mail
 from django.urls import reverse
-
+from django.http import HttpRequest
 from core.models import ConfirmationCode, User, Country, Tweet, Retweet
 from core.business_logic.services.common import replace_file_name_to_uuid, change_file_size
 
@@ -59,6 +59,17 @@ def edit_profile(data: EditProfileDto, user: User) -> None:
             )
 
 
+# def initialize_profile(user):
+#     initial_data = {
+#         "avatar": user.avatar,
+#         "username": user.username,
+#         "first_name": user.first_name,
+#         "last_name": user.last_name,
+#         "email": user.email,
+#         "birth_date": user.birth_date,
+#         "country": user.country.name
+#     }
+#     return initial_data
 # def get_another_profile(username: str) -> None:
 #     with transaction.atomic():
 #         user = get_object_or_404(User, username=username)
