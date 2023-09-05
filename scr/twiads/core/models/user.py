@@ -21,6 +21,17 @@ class User(BaseModel, AbstractUser):
         db_table="subscriber_user",
     )
     country = models.ForeignKey(to="Country", on_delete=models.CASCADE, related_name="users")
+    
+    def to_dict(self):
+        return {
+            "avatar": self.avatar,
+            "username": self.username,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "birth_date": self.birth_date,
+            "country": self.country.name
+        }
 
     class Meta:
         """Rename"""

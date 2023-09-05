@@ -1,7 +1,3 @@
-class CompanyNotExists(Exception):
-    ...
-
-
 class ConfirmationCodeNotExists(Exception):
     ...
 

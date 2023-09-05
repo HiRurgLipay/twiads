@@ -15,7 +15,7 @@ from django.db.models import Q
 from core.business_logic.exceptions import ConfirmationCodeExpired, ConfirmationCodeNotExists
 from core.models import Tweet, User
 from core.presentation.converters import convert_data_from_form_to_dto
-from core.business_logic.services import confirm_user_registration, edit_profile, initialize_profile
+from core.business_logic.services import confirm_user_registration, edit_profile
 from core.business_logic.dto import EditProfileDto
 from core.presentation.forms import EditProfileForm, SortForm
 
@@ -61,7 +61,7 @@ def edit_profile_controller(request: HttpRequest) -> HttpResponse:
     if request.method == "GET":
         if request.user.is_authenticated:
             user = request.user
-            initial_data = initialize_profile(user)
+            initial_data = user.to_dict()
             form = EditProfileForm(initial=initial_data)
             context = {"form": form}
             return render(request=request, template_name="edit_profile.html", context=context)
