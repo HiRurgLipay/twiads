@@ -34,7 +34,6 @@ def profile_controller(request: HttpRequest) -> HttpResponse:
     
     tweets = Tweet.objects.filter(Q(author=current_user), parent_tweet=None)
     retweets = Tweet.objects.prefetch_related('retweets').filter(retweets__user=current_user)
-
     tweets_and_retweets = tweets.union(retweets)
     
     form  = SortForm(request.GET)
@@ -78,7 +77,7 @@ def edit_profile_controller(request: HttpRequest) -> HttpResponse:
                    edit_profile(data=data, user=user)
                 else:
                     edit_profile(data=data, user=user)
-                    return HttpResponseRedirect(redirect_to=reverse("profile"))
+                    return redirect(to="confirm-stub")
             else:
                 form = EditProfileForm(request.POST)
                 context = {"form": form}
