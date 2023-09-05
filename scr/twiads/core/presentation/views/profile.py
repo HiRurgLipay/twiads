@@ -39,7 +39,7 @@ def profile_controller(request: HttpRequest) -> HttpResponse:
     form  = SortForm(request.GET)
     tweets_and_retweets = tweets_and_retweets.order_by('-created_at')
     
-    paginator = Paginator(tweets, 2)
+    paginator = Paginator(tweets_and_retweets, 5)
     page_number = request.GET.get('page', 1)
     page = paginator.get_page(page_number)
 
@@ -73,11 +73,12 @@ def edit_profile_controller(request: HttpRequest) -> HttpResponse:
             if form.is_valid():
                 data = convert_data_from_form_to_dto(EditProfileDto, data_from_form=form.cleaned_data)
                 user = request.user
-                if form.cleaned_data["change_email"]:
+                if form.cleaned_data["change_email"] == True:
                    edit_profile(data=data, user=user)
+                   return redirect(to="confirm-stub")
                 else:
                     edit_profile(data=data, user=user)
-                    return redirect(to="confirm-stub")
+                    return HttpResponseRedirect(redirect_to=reverse("profile"))
             else:
                 form = EditProfileForm(request.POST)
                 context = {"form": form}

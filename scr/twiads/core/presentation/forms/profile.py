@@ -4,9 +4,9 @@ from core.models import Country
 from core.presentation.validators import ValidateFileExtension, ValidateFileSize
 
 
-def get_countries() -> list:
-    USER_COUNTRY_CHOICES = [(country.name, country.name) for country in Country.objects.all()]
-    return USER_COUNTRY_CHOICES
+# def get_countries() -> list:
+#     USER_COUNTRY_CHOICES = [(country.name, country.name) for country in Country.objects.all()]
+#     return USER_COUNTRY_CHOICES
 
 class EditProfileForm(forms.Form):
     username = forms.CharField(max_length=30)
@@ -22,5 +22,5 @@ class EditProfileForm(forms.Form):
        validators=[ValidateFileExtension(["png", "jpg", "jpeg"]), ValidateFileSize(max_size=5_000_000)]
    )
 
-    country = forms.ChoiceField(label='Country', choices=get_countries())
+    # country = forms.ChoiceField(label='Country', choices=get_countries())
     change_email = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput())

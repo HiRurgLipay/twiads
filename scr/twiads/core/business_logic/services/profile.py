@@ -51,16 +51,3 @@ def edit_profile(data: EditProfileDto, user: User) -> None:
             from_email=settings.EMAIL_FROM,
             recipient_list=[data.email],
         )
-
-
-# def initialize_profile(user):
-#     initial_data = {
-#         "avatar": user.avatar,
-#         "username": user.username,
-#         "first_name": user.first_name,
-#         "last_name": user.last_name,
-#         "email": user.email,
-#         "birth_date": user.birth_date,
-#         "country": user.country.name
-#     }
-#     return initial_data

@@ -31,7 +31,7 @@ def another_profile_controller(request: HttpRequest, username: str) -> HttpRespo
     form  = SortForm(request.GET)
     tweets_and_retweets = tweets_and_retweets.order_by('-created_at')
     
-    paginator = Paginator(tweets_and_retweets, 2)
+    paginator = Paginator(tweets_and_retweets, 5)
     page_number = request.GET.get('page', 1)
     page = paginator.get_page(page_number)
   

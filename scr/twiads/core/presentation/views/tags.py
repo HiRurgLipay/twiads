@@ -27,7 +27,7 @@ def tags_views_controller(request: HttpRequest) -> HttpResponse:
         elif sort_by == 'Likes':
             tweets = tweets.order_by('-likes_count')
         
-        paginator = Paginator(tweets, 2)
+        paginator = Paginator(tweets, 5)
         page_number = request.GET.get('page', 1)
         page = paginator.get_page(page_number)
         
