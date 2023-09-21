@@ -25,7 +25,6 @@ logger = logging.getLogger(__name__)
 def create_user(data: RegistrationDTO) -> None:
     logger.info("Get user creation request.", extra={"user": str(data)})
     
-    
     user_model: User = get_user_model()
     country = Country.objects.get(name=data.country)
     created_user = user_model.objects.create_user(

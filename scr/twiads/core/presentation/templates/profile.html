@@ -54,6 +54,10 @@
             </p></li>
         </div>
     {% elif item in retweets %}
+        <form action="{% url 'delete_retweet' item.id %}" method="GET">
+            {% csrf_token %}
+            <input type="submit" value="Delete">
+        </form>
         <div class="retweet">
             <li><p>Retweet:</p></li>
             <div class="tweet">

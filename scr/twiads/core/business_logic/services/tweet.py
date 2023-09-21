@@ -6,7 +6,7 @@ from core.business_logic.dto import AddTweetDTO, EditTweetDTO
 
 import logging
 
-from core.models import Tweet, Tag
+from core.models import Tweet, Tag, User
 
 logger = logging.getLogger(__name__)
 
@@ -30,8 +30,19 @@ def create_tweet(data: AddTweetDTO) -> None:
         replied_tweet = Tweet.objects.get(id=data.parent_tweet)
         replied_tweet.save()
     logger.info("Successfully created tweet", extra={"author":data.author, 'content':data.content, 'parent_tweet':data.parent_tweet})
-    
-        
+
+
+def get_tweet(tweet_id: int) -> Tweet:
+    tweet = get_object_or_404(Tweet, id=tweet_id)
+    return tweet
+
+
+def delete_tweet(tweet_id: int, user : User) -> Tweet:
+    tweet = get_object_or_404(Tweet, id=tweet_id)
+    if tweet.author == user:
+        return tweet.delete()
+
+
 def edit_tweet(data: EditTweetDTO, tweet_id: int) -> None:
     tags: list[str] = data.tags.split("\r\n")
     tags_list: list[Tag] = []

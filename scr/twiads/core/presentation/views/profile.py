@@ -7,19 +7,14 @@ from typing import TYPE_CHECKING
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
-from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.db.models import Q
 
 from core.business_logic.exceptions import ConfirmationCodeExpired, ConfirmationCodeNotExists
-from core.models import Tweet, User
 from core.presentation.converters import convert_data_from_form_to_dto
-from core.business_logic.services import confirm_user_registration, edit_profile
+from core.business_logic.services import confirm_user_registration, edit_profile, profile_service
 from core.business_logic.dto import EditProfileDto
-from core.presentation.forms import EditProfileForm, SortForm
-
-
+from core.presentation.forms import EditProfileForm
 
 if TYPE_CHECKING:
     from django.http import HttpRequest
@@ -29,29 +24,16 @@ logger = logging.getLogger(__name__)
 
 @require_http_methods(request_method_list=["GET"])
 def profile_controller(request: HttpRequest) -> HttpResponse:
-    
-    current_user = get_object_or_404(User, username=request.user)
-    
-    tweets = Tweet.objects.filter(Q(author=current_user), parent_tweet=None)
-    retweets = Tweet.objects.prefetch_related('retweets').filter(retweets__user=current_user)
-    tweets_and_retweets = tweets.union(retweets)
-    
-    form  = SortForm(request.GET)
-    tweets_and_retweets = tweets_and_retweets.order_by('-created_at')
-    
-    paginator = Paginator(tweets_and_retweets, 5)
-    page_number = request.GET.get('page', 1)
-    page = paginator.get_page(page_number)
-
-    context = {"tweets": tweets,
-               "retweets": retweets,
+    current_user = request.user
+    tweets, retweets, form, tweets_and_retweets = profile_service(current_user, request.GET)
+    context = {"retweets": retweets,
                "form": form,
-               "tweets": page,
-               "tweets_and_retweets": page,
+               "tweets": tweets,
+               "tweets_and_retweets": tweets_and_retweets,
                "current_user": current_user
                }
     
-    return render(request=request, template_name="profile.html", context=context)   
+    return render(request=request, template_name="profile.html", context=context)
 
 
 @login_required

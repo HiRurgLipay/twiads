@@ -1,19 +1,42 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
+from typing import Tuple
 
 from django.conf import settings
 from django.core.mail import send_mail
 from django.urls import reverse
+from django.db.models import Q, QuerySet
+from django.core.paginator import Paginator, Page
+from django.http import QueryDict
 
-from core.models import ConfirmationCode, User, Country
+from core.business_logic.dto import EditProfileDto
+from core.presentation.forms import SortForm
+from core.models import ConfirmationCode, User, Country, Retweet, Tweet
 from core.business_logic.services.common import replace_file_name_to_uuid, change_file_size
 
 import uuid
 import time
 
-if TYPE_CHECKING:
-    from core.business_logic.dto import EditProfileDto
+import logging
 
+logger = logging.getLogger(__name__)
+
+
+def profile_service(user: User, request_get: QueryDict) -> Tuple[QuerySet[Tweet], QuerySet[Retweet], SortForm, Page[Tweet]]:
+    tweets = Tweet.objects.filter(Q(author=user), parent_tweet=None)
+    retweets = Tweet.objects.prefetch_related('retweets').filter(retweets__user=user)
+    tweets_and_retweets = tweets.union(retweets)
+    
+    form = SortForm(request_get)
+    tweets_and_retweets = tweets_and_retweets.order_by('-created_at')
+    
+    paginator = Paginator(tweets_and_retweets, 5)
+    page_number = request_get.get('page', 1)
+    page = paginator.get_page(page_number)
+    
+    return tweets, retweets, form, page
+
+
+    
 
 def edit_profile(data: EditProfileDto, user: User) -> None:
     if data.avatar:

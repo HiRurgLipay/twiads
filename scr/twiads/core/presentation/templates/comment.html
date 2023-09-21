@@ -14,7 +14,7 @@
         <li>
           <form action="{% url 'like_tweet' tweet_id=tweet.id %}" method="POST">
               {% csrf_token %}
-              <button type="submit" class="like-button">Like</button> {{ tweet.likes_count }}
+              Likes: {{ tweet.likes_count }}
           </form>
         </li>
     </div>
@@ -24,7 +24,7 @@
         <input type="hidden" name="tweet_id" value="{{ tweet.id }}">
         <div class="form-group">
             <label for="comment">Add Comment:</label>
-            <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+            <textarea class="form-control" id="comment" name="content" rows="6"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

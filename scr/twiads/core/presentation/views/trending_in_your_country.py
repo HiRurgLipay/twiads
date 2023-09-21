@@ -6,9 +6,8 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
 
-from core.models import Tweet
+from core.business_logic.services import top_tags_service
 
 if TYPE_CHECKING:
     from django.http import HttpRequest
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 @require_http_methods(["GET"])
 def top_tags_controller(request: HttpRequest) -> HttpResponse:
     user = request.user
-    country = user.country.name if user.country else None
-    trending_tags = Tweet.objects.filter(author__country__name=country).values('tags__name').annotate(tag_count=Count('tags')).order_by('-tag_count')[:10]
+    trending_tags = top_tags_service(user)
 
     context = {
         'trending_tags': trending_tags,
